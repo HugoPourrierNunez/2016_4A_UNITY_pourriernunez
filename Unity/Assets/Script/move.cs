@@ -1,42 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class move : MonoBehaviour {
-
+public class move : MonoBehaviour
+{
     public Transform transformIA;
     public float speedIA = 0.1f;
 
-
-    void moveRight()
+    void moveIA(int i)
     {
-        transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y, transformIA.position.z);
-    }
-    void moveUp()
-    {
-        transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y + speedIA, transformIA.position.z);
-    }
-    void moveLeft()
-    {
-        transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y, transformIA.position.z);
-    }
-    void moveDown()
-    {
-        transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y - speedIA, transformIA.position.z);
-    }
-    void moveUpRight()
-    {
-        transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y + speedIA, transformIA.position.z);
-    }
-    void moveUpLeft()
-    {
-        transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y + speedIA, transformIA.position.z);
-    }
-    void moveDownRight()
-    {
-        transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y - speedIA, transformIA.position.z);
-    }
-    void moveDownLeft()
-    {
-        transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y - speedIA, transformIA.position.z);
+        switch (i)
+        {
+            case 1://up
+                transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y, transformIA.position.z + speedIA);
+                break;
+            case 2://up right
+                transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y, transformIA.position.z + speedIA);
+                break;
+            case 3://right
+                transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y, transformIA.position.z);
+                break;
+            case 4://down right
+                transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y, transformIA.position.z - speedIA);
+                break;
+            case 5://down
+                transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y, transformIA.position.z - speedIA);
+                break;
+            case 6://down left
+                transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y, transformIA.position.z - speedIA);
+                break;
+            case 7://left
+                transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y, transformIA.position.z);
+                break;
+            case 8://up left 
+                transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y, transformIA.position.z + speedIA);
+                break;
+        }
     }
 }
