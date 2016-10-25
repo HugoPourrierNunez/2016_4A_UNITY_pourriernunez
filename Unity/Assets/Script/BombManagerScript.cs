@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BombManager : MonoBehaviour
+public class BombManagerScript : MonoBehaviour
 {
 
     [SerializeField]
@@ -12,7 +12,7 @@ public class BombManager : MonoBehaviour
     public float dx { get; set; }
     public float dz { get; set; }
 
-    void OnEnable()
+    public void initialize()
     {
         this.x0 = transform.position.x;
         this.z0 = transform.position.z;
@@ -60,5 +60,10 @@ public class BombManager : MonoBehaviour
     {
         Vector3 vect = new Vector3(4 * Time.deltaTime * dx, 0.0f, 4 * Time.deltaTime * dz);
         transform.position += vect;
+    }
+
+    public Vector2 getDirection()
+    {
+        return new Vector2(dx, dz);
     }
 }

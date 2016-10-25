@@ -14,5 +14,5 @@ public class MapManagerScript : MonoBehaviour{
     Transform goal;
 
     [SerializeField]
-    List<ObstacleScript> obstacles; 
+    ObstacleScript[] obstacles; 
 }

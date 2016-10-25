@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 public class CollisionManagerScript : MonoBehaviour
 {
@@ -21,9 +23,13 @@ public class CollisionManagerScript : MonoBehaviour
         left
     }
 
+    public BombManagerScript[] getBombManagers()
+    {
+        return bombManagers;
+    }
 
     [SerializeField]
-    public BombManager[] bombManagers;
+    public BombManagerScript[] bombManagers;
 
     private int nbBombs;
     private float bombRadius = 0.5f;
