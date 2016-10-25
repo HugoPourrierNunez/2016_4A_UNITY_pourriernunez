@@ -116,7 +116,7 @@ public class StateManagerScript : MonoBehaviour {
 public struct GameState
 {
     public Vector3 iaPosition;
-    public BombInfo[] bombes;
+    public BombInfo[] bombs;
 }
 
 public struct BombInfo
@@ -127,4 +127,4 @@ public struct BombInfo
     public BombState state;
 }
 
-public enum BombState { Normal,Explosion, Laser};
+public enum BombState { Normal, Explosion, Laser};

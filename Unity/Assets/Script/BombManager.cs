@@ -7,15 +7,15 @@ public class BombManager : MonoBehaviour
     [SerializeField]
     public Transform transform;
 
-    public float x { get; set; }
-    public float z { get; set; }
+    public float x0 { get; set; }
+    public float z0 { get; set; }
     public float dx { get; set; }
     public float dz { get; set; }
 
     void OnEnable()
     {
-        this.x = transform.position.x;
-        this.z = transform.position.z;
+        this.x0 = transform.position.x;
+        this.z0 = transform.position.z;
 
         int random = Random.Range(1, 9);
 
@@ -58,9 +58,6 @@ public class BombManager : MonoBehaviour
 
     void Update()
     {
-        this.x += 4 * Time.deltaTime * dx;
-        this.z += 4 * Time.deltaTime * dz;
-
         Vector3 vect = new Vector3(4 * Time.deltaTime * dx, 0.0f, 4 * Time.deltaTime * dz);
         transform.position += vect;
     }
