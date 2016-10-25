@@ -74,29 +74,29 @@ public class StateManagerScript : MonoBehaviour {
         endGameIsActiveStream.Subscribe(EndGameGo.SetActive);
 
         // internal custom game State Stream
-        var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
+        /*var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
             .TakeUntil(endGameGameStream)
             .Scan(new InGameCustomGameState(), (gameState, ticks) =>
             GetNextState(gameState)
         ).Repeat();
 
         // Side effect of the inGame GameState change (update the view)
-        inGameGameStateStream.Subscribe(ApplyGameState);
-    }
-
-    // Simple inGame InGameCustomGameState
-    public struct InGameCustomGameState
-    {
-        public float PosX;
-    }
-
-    public InGameCustomGameState GetNextState(InGameCustomGameState currentGameCustomState)
-    {
-        return new InGameCustomGameState { PosX = currentGameCustomState.PosX + 0.02f };
-    }
-
-    public void ApplyGameState(InGameCustomGameState gameCustomState)
-    {
-        
+        inGameGameStateStream.Subscribe(ApplyGameState);*/
     }
 }
+
+// Simple inGame GameState
+public struct GameState
+{
+    public Vector3 iaPosition;
+    public BombInfo[] bombes;
+}
+
+public struct BombInfo
+{
+    public Vector3 position;
+    public float delay;
+    public BombState state;
+}
+
+public enum BombState { Normal,Explosion, Laser};
