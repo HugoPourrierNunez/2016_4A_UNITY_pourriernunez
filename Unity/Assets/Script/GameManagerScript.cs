@@ -7,29 +7,46 @@ public class GameManagerScript : MonoBehaviour {
     GameState actualGameState;
 
     [SerializeField]
-    CollisionManagerScript collisionManager;
+    CollisionManagerScript collisionManagerScript;
 
     [SerializeField]
-    MapManagerScript mapManager;
-    
+    MapManagerScript mapManagerScript;
+
+    public CollisionManagerScript CollisionManagerScript
+    {
+        get
+        {
+            return collisionManagerScript;
+        }
+    }
+
+    public MapManagerScript MapManagerScript
+    {
+        get
+        {
+            return mapManagerScript;
+        }
+    }
+
     void Start()
     {
-        initializeGameState(collisionManager.getBombManagers());
+        mapManagerScript.setGameManagerScript(this);
+        collisionManagerScript.setGameManagerScript(this);
+        initializeGameState(CollisionManagerScript.getBombManagers());
     } 
 
     void initializeGameState(BombManagerScript[] bombManagers)
     {
         actualGameState = new GameState();
         var length = bombManagers.Length;
-        actualGameState.bombes = new BombInfo[length];
+        actualGameState.bombs = new BombInfo[length];
         for(var i=0;i<length; i++)
         {
             bombManagers[i].initialize();
-            actualGameState.bombes[i].position = bombManagers[i].transform.position;
-            actualGameState.bombes[i].state = BombState.Normal;
-            actualGameState.bombes[i].delay = -1;
-            actualGameState.bombes[i].direction = bombManagers[i].getDirection();
-
+            actualGameState.bombs[i].position = bombManagers[i].transform.position;
+            actualGameState.bombs[i].state = BombState.Normal;
+            actualGameState.bombs[i].delay = -1;
+            actualGameState.bombs[i].direction = bombManagers[i].getDirection(); 
         }
         
     }

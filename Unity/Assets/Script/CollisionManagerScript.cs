@@ -15,6 +15,13 @@ public class CollisionManagerScript : MonoBehaviour
         public float t;
     }*/
 
+    GameManagerScript gameManagerScript;
+
+    public void setGameManagerScript(GameManagerScript gmScript)
+    {
+        this.gameManagerScript = gmScript;
+    }
+
     private enum Walls
     {
         bottom,

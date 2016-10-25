@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MapManagerScript : MonoBehaviour{
+public class MapManagerScript : MonoBehaviour
+{
 
     [SerializeField]
     Plane plane;
@@ -14,5 +15,12 @@ public class MapManagerScript : MonoBehaviour{
     Transform goal;
 
     [SerializeField]
-    ObstacleScript[] obstacles; 
+    ObstacleScript[] obstacles;
+
+    GameManagerScript gameManagerScript;
+
+    public void setGameManagerScript(GameManagerScript gmScript)
+    {
+        this.gameManagerScript = gmScript;
+    }
 }
