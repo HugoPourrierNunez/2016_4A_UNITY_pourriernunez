@@ -36,4 +36,9 @@ public class move : MonoBehaviour
                 break;
         }
     }
+    public int GetLongHeuristic(GameState state)
+    {
+
+        return 0;
+    }
 }
