@@ -34,6 +34,14 @@ public class StateManagerScript : MonoBehaviour {
     [SerializeField]
     float inGameDelai;
 
+
+    GameManagerScript gameManagerScript;
+
+    public void setGameManagerScript(GameManagerScript gmScript)
+    {
+        this.gameManagerScript = gmScript;
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -92,8 +100,7 @@ public class StateManagerScript : MonoBehaviour {
             .WithLatestFrom(pauseStatusStream, (_,pauseStatus) =>pauseStatus)
             .Where(pauseStatus => !pauseStatus)
             .TakeUntil(endGameGameStream)
-            .Scan(new GameState(), (gameState, ticks) =>
-            GetNextState(gameState)
+            .Scan(gameManagerScript.ActualGameState, (gameState, ticks) => GetNextState(gameState)
         ).Repeat();
 
         // Side effect of the inGame GameState change (update the view)
@@ -102,13 +109,14 @@ public class StateManagerScript : MonoBehaviour {
 
     private GameState GetNextState(GameState gameState)
     {
-        //A compléter
+        gameState.bombs = gameManagerScript.CollisionManagerScript.HandleBombCollision(gameState);
         return gameState;
     }
 
     private void ApplyGameState()
     {
         //A completer
+
     }
 }
 

@@ -12,8 +12,10 @@ public class BombManagerScript : MonoBehaviour
     public float dx { get; set; }
     public float dz { get; set; }
 
-    public void initialize()
+    public void initializeBomb()
     {
+
+        Debug.Log("initialize");
         this.x0 = transform.position.x;
         this.z0 = transform.position.z;
 
@@ -58,6 +60,7 @@ public class BombManagerScript : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log("Update");
         Vector3 vect = new Vector3(4 * Time.deltaTime * dx, 0.0f, 4 * Time.deltaTime * dz);
         transform.position += vect;
     }

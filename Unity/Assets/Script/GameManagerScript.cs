@@ -12,6 +12,9 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     MapManagerScript mapManagerScript;
 
+    [SerializeField]
+    StateManagerScript stateManagerScript;
+
     public CollisionManagerScript CollisionManagerScript
     {
         get
@@ -28,26 +31,44 @@ public class GameManagerScript : MonoBehaviour {
         }
     }
 
+    public StateManagerScript StateManagerScript
+    {
+        get
+        {
+            return StateManagerScript;
+        }
+    }
+
+    public GameState ActualGameState
+    {
+        get
+        {
+            return actualGameState;
+        }
+
+        set
+        {
+            actualGameState = value;
+        }
+    }
+
     void Start()
     {
         mapManagerScript.setGameManagerScript(this);
         collisionManagerScript.setGameManagerScript(this);
-        initializeGameState(CollisionManagerScript.getBombManagers());
-    } 
+        stateManagerScript.setGameManagerScript(this);
 
-    void initializeGameState(BombManagerScript[] bombManagers)
+        initializeGameState();
+    }
+    
+    void OnEnabled()
+    {
+        initializeGameState();
+    }
+
+    void initializeGameState()
     {
         actualGameState = new GameState();
-        var length = bombManagers.Length;
-        actualGameState.bombs = new BombInfo[length];
-        for(var i=0;i<length; i++)
-        {
-            bombManagers[i].initialize();
-            actualGameState.bombs[i].position = bombManagers[i].transform.position;
-            actualGameState.bombs[i].state = BombState.Normal;
-            actualGameState.bombs[i].delay = -1;
-            actualGameState.bombs[i].direction = bombManagers[i].getDirection(); 
-        }
-        
+        actualGameState.bombs = collisionManagerScript.InitializeBombInfo();
     }
 }

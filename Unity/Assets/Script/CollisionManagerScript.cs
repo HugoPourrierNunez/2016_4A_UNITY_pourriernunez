@@ -37,8 +37,9 @@ public class CollisionManagerScript : MonoBehaviour
     BombInfo[] bombs;
     TriangularMatrixScript<float> bombsDistance;
 
-    public BombInfo[] InitializeGameState()
+    public BombInfo[] InitializeBombInfo()
     {
+        Debug.Log("init bomb info");
         nbBombs = bombManagers.Length;
 
         bombs = new BombInfo[nbBombs];
@@ -50,6 +51,9 @@ public class CollisionManagerScript : MonoBehaviour
             bombs[i].position.z = bombManagers[i].z0;
             bombs[i].direction.x = bombManagers[i].dx;
             bombs[i].direction.y = bombManagers[i].dz;
+            bombs[i].delay = -1;
+            bombs[i].state = BombState.Normal;
+            bombManagers[i].initializeBomb();
         }
 
         for (var i = 0; i < nbBombs; i++)
