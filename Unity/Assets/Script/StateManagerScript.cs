@@ -96,6 +96,7 @@ public struct BombInfo
 {
     public Vector3 position;
     public float delay;
+    public Vector2 direction;
     public BombState state;
 }
 
