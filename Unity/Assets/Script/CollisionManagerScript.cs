@@ -5,16 +5,6 @@ using System.Collections.Generic;
 
 public class CollisionManagerScript : MonoBehaviour
 {
-
-    /*private struct Bomb
-    {
-        public float x0;
-        public float z0;
-        public float dx;
-        public float dz;
-        public float t;
-    }*/
-
     GameManagerScript gameManagerScript;
 
     public void setGameManagerScript(GameManagerScript gmScript)
@@ -38,21 +28,21 @@ public class CollisionManagerScript : MonoBehaviour
     [SerializeField]
     public BombManagerScript[] bombManagers;
 
-    private int nbBombs;
-    private float bombRadius = 0.5f;
-    private float bottomWall = -20.0f;
-    private float topWall = 20.0f;
-    private float rightWall = 20.0f;
-    private float leftWall = -20.0f;
-    private BombInfo[] bombs;
-    private float[,] bombsDistance;
+    int nbBombs;
+    float bombRadius = 0.5f;
+    float bottomWall = -20.0f;
+    float topWall = 20.0f;
+    float rightWall = 20.0f;
+    float leftWall = -20.0f;
+    BombInfo[] bombs;
+    TriangularMatrixScript<float> bombsDistance;
 
-	void OnEnable ()
+    public BombInfo[] InitializeGameState()
     {
         nbBombs = bombManagers.Length;
 
         bombs = new BombInfo[nbBombs];
-        bombsDistance = new float[nbBombs , nbBombs];
+        bombsDistance = new TriangularMatrixScript<float>(nbBombs, nbBombs);
 
         for (var i = 0; i < nbBombs; i++)
         {
@@ -66,14 +56,19 @@ public class CollisionManagerScript : MonoBehaviour
         {
             for (var j = i + 1; j < nbBombs; j++)
             {
-                bombsDistance[i,j] = Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - bombs[j].position.x), 2) 
-                                        + Mathf.Pow((bombs[i].position.z - bombs[j].position.z), 2));
+                bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - bombs[j].position.x), 2)
+                                        + Mathf.Pow((bombs[i].position.z - bombs[j].position.z), 2)));
             }
         }
+
+        return bombs;
     }
 
-    void Update()
+    public BombInfo[] HandleBombCollision(GameState gameState)
     {
+        var bombs = gameState.bombs;
+        var nbBombs = bombs.Length;
+
         for (var i = 0; i < nbBombs; i++)
         {
             bombs[i].position.x += 4 * Time.deltaTime * bombs[i].direction.x;
@@ -84,38 +79,40 @@ public class CollisionManagerScript : MonoBehaviour
         {
             for (var j = i + 1; j < nbBombs; j++)
             {
-                bombsDistance[i,j] = Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - bombs[j].position.x), 2)
-                                        + Mathf.Pow((bombs[i].position.z - bombs[j].position.z), 2));
-                
-                if (bombsDistance[i,j] < 1)
+                bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - bombs[j].position.x), 2)
+                                        + Mathf.Pow((bombs[i].position.z - bombs[j].position.z), 2)));
+
+                if (bombsDistance.Get(i, j) < 1)
                 {
-                    BombCollideWithBomb(i, j);
+                    BombCollideWithBomb(i, j, bombs);
                 }
             }
 
             if (bombs[i].position.x < bottomWall + bombRadius)
             {
-                BombCollideWithWall(i, Walls.bottom);
+                BombCollideWithWall(i, Walls.bottom, bombs);
             }
 
-            else if (bombs[i].position.x > topWall - bombRadius)
+            if (bombs[i].position.x > topWall - bombRadius)
             {
-                BombCollideWithWall(i, Walls.top);
+                BombCollideWithWall(i, Walls.top, bombs);
             }
 
-            else if (bombs[i].position.z > rightWall - bombRadius)
+            if (bombs[i].position.z > rightWall - bombRadius)
             {
-                BombCollideWithWall(i, Walls.right);
+                BombCollideWithWall(i, Walls.right, bombs);
             }
 
-            else if (bombs[i].position.z < leftWall + bombRadius)
+            if (bombs[i].position.z < leftWall + bombRadius)
             {
-                BombCollideWithWall(i, Walls.left);
+                BombCollideWithWall(i, Walls.left, bombs);
             }
         }
+
+        return bombs;
     }
 
-    void BombCollideWithBomb(int i, int j)
+    private void BombCollideWithBomb(int i, int j, BombInfo[] bombs)
     {
         var tmpDir = bombs[i].direction;
         bombs[i].direction = bombs[j].direction;
@@ -127,25 +124,26 @@ public class CollisionManagerScript : MonoBehaviour
         bombManagers[j].dz = bombs[j].direction.y;
     }
 
-    void BombCollideWithWall(int i, Walls wall)
+    private void BombCollideWithWall(int i, Walls wall, BombInfo[] bombs)
     {
         switch (wall)
         {
             case Walls.bottom:
                 bombs[i].direction.x = Mathf.Abs(bombs[i].direction.x);
+                bombManagers[i].dx = bombs[i].direction.x;
                 break;
             case Walls.top:
                 bombs[i].direction.x = -Mathf.Abs(bombs[i].direction.x);
+                bombManagers[i].dx = bombs[i].direction.x;
                 break;
             case Walls.right:
                 bombs[i].direction.y = -Mathf.Abs(bombs[i].direction.y);
+                bombManagers[i].dz = bombs[i].direction.y;
                 break;
             case Walls.left:
                 bombs[i].direction.y = Mathf.Abs(bombs[i].direction.y);
+                bombManagers[i].dz = bombs[i].direction.y;
                 break;
         }
-
-        bombManagers[i].dx = bombs[i].direction.x;
-        bombManagers[i].dz = bombs[i].direction.y;
     }
 }
