@@ -74,18 +74,18 @@ public class StateManagerScript : MonoBehaviour {
         endGameIsActiveStream.Subscribe(EndGameGo.SetActive);
 
         // internal custom game State Stream
-        /*var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
+        var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
             .TakeUntil(endGameGameStream)
             .Scan(new InGameCustomGameState(), (gameState, ticks) =>
             GetNextState(gameState)
-        ).Repeat();*/
+        ).Repeat();
 
         // Side effect of the inGame GameState change (update the view)
-        //inGameGameStateStream.Subscribe(ApplyGameState);
+        inGameGameStateStream.Subscribe(ApplyGameState);
     }
 
     // Simple inGame InGameCustomGameState
-    /*public struct InGameCustomGameState
+    public struct InGameCustomGameState
     {
         public float PosX;
     }
@@ -98,5 +98,5 @@ public class StateManagerScript : MonoBehaviour {
     public void ApplyGameState(InGameCustomGameState gameCustomState)
     {
         
-    }*/
+    }
 }
