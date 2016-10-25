@@ -67,6 +67,20 @@ public class StateManagerScript : MonoBehaviour {
         var restartGameIsActiveStream = restartGameGameStream.Select(_ => true)
             .Merge(inGameGameStream.Select(_ => false));
 
+
+        var pauseStatusStream = inGameGameStream
+            .Take(1)
+            .SelectMany(_ =>
+                Observable.EveryUpdate()
+                .Where(__ => Input.GetKeyDown(KeyCode.P))
+                .Scan(false, (pauseStatus, __) => !pauseStatus)
+                .StartWith(false)
+            )
+            .TakeUntil(endGameGameStream);
+            
+
+        pauseStatusStream.Subscribe(elt => Debug.Log(elt));
+
         // Root gameobjects activation bindings
         logoIsActiveStream.Subscribe(LogoGo.SetActive);
         menuIsActiveStream.Subscribe(MenuGo.SetActive);
@@ -74,14 +88,27 @@ public class StateManagerScript : MonoBehaviour {
         endGameIsActiveStream.Subscribe(EndGameGo.SetActive);
 
         // internal custom game State Stream
-        /*var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
+        var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
+            .WithLatestFrom(pauseStatusStream, (_,pauseStatus) =>pauseStatus)
+            .Where(pauseStatus => !pauseStatus)
             .TakeUntil(endGameGameStream)
-            .Scan(new InGameCustomGameState(), (gameState, ticks) =>
+            .Scan(new GameState(), (gameState, ticks) =>
             GetNextState(gameState)
         ).Repeat();
 
         // Side effect of the inGame GameState change (update the view)
-        inGameGameStateStream.Subscribe(ApplyGameState);*/
+        inGameGameStateStream.Subscribe(_ => ApplyGameState());
+    }
+
+    private GameState GetNextState(GameState gameState)
+    {
+        //A compléter
+        return gameState;
+    }
+
+    private void ApplyGameState()
+    {
+        //A completer
     }
 }
 
