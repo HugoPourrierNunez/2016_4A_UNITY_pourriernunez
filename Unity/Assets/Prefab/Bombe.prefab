@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a724a1fb46a5964c98545a8bcd15a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transform: {fileID: 4000012626859122}
+  bombGO: {fileID: 1000010509305426}
 --- !u!135 &135000013495208236
 SphereCollider:
   m_ObjectHideFlags: 1

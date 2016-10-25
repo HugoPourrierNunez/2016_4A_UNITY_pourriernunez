@@ -47,13 +47,13 @@ public class CollisionManagerScript : MonoBehaviour
 
         for (var i = 0; i < nbBombs; i++)
         {
+            bombManagers[i].initializeBomb();
             bombs[i].position.x = bombManagers[i].x0;
             bombs[i].position.z = bombManagers[i].z0;
             bombs[i].direction.x = bombManagers[i].dx;
             bombs[i].direction.y = bombManagers[i].dz;
             bombs[i].delay = -1;
             bombs[i].state = BombState.Normal;
-            bombManagers[i].initializeBomb();
         }
 
         for (var i = 0; i < nbBombs; i++)
@@ -75,6 +75,7 @@ public class CollisionManagerScript : MonoBehaviour
 
         for (var i = 0; i < nbBombs; i++)
         {
+            //Debug.Log("test");
             bombs[i].position.x += 4 * Time.deltaTime * bombs[i].direction.x;
             bombs[i].position.z += 4 * Time.deltaTime * bombs[i].direction.y;
         }
@@ -112,8 +113,16 @@ public class CollisionManagerScript : MonoBehaviour
                 BombCollideWithWall(i, Walls.left, bombs);
             }
         }
-
         return bombs;
+    }
+
+    public void applyStateToBombs(GameState gameState)
+    {
+        var length = bombManagers.Length;
+        for(var i = 0; i<length;i++)
+        {
+            bombManagers[i].ApplyBombInfo(gameState.bombs[i]);
+        }
     }
 
     private void BombCollideWithBomb(int i, int j, BombInfo[] bombs)

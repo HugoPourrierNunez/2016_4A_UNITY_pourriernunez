@@ -96,15 +96,20 @@ public class StateManagerScript : MonoBehaviour {
         endGameIsActiveStream.Subscribe(EndGameGo.SetActive);
 
         // internal custom game State Stream
-        var inGameGameStateStream = inGameGameStream.SelectMany(_ => Observable.EveryFixedUpdate())
-            .WithLatestFrom(pauseStatusStream, (_,pauseStatus) =>pauseStatus)
+        var inGameGameStateStream = inGameGameStream
+            .SelectMany(_ => Observable.EveryFixedUpdate())
+            .WithLatestFrom(pauseStatusStream, (_, pauseStatus) => pauseStatus)
             .Where(pauseStatus => !pauseStatus)
             .TakeUntil(endGameGameStream)
-            .Scan(gameManagerScript.ActualGameState, (gameState, ticks) => GetNextState(gameState)
-        ).Repeat();
+            //.Scan(gameManagerScript.ActualGameState, (gameState, ticks) => GetNextState(gameState))
+            .Repeat();
 
         // Side effect of the inGame GameState change (update the view)
-        inGameGameStateStream.Subscribe(_ => ApplyGameState());
+        inGameGameStateStream.Subscribe(_ => {
+            gameManagerScript.ActualGameState = GetNextState(gameManagerScript.ActualGameState);
+            ApplyGameState();
+            });
+
     }
 
     private GameState GetNextState(GameState gameState)
@@ -116,7 +121,7 @@ public class StateManagerScript : MonoBehaviour {
     private void ApplyGameState()
     {
         //A completer
-
+        gameManagerScript.CollisionManagerScript.applyStateToBombs(gameManagerScript.ActualGameState);
     }
 }
 

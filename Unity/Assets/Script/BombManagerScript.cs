@@ -5,7 +5,8 @@ public class BombManagerScript : MonoBehaviour
 {
 
     [SerializeField]
-    public Transform transform;
+    GameObject bombGO;
+
 
     public float x0 { get; set; }
     public float z0 { get; set; }
@@ -14,8 +15,6 @@ public class BombManagerScript : MonoBehaviour
 
     public void initializeBomb()
     {
-
-        Debug.Log("initialize");
         this.x0 = transform.position.x;
         this.z0 = transform.position.z;
 
@@ -58,15 +57,20 @@ public class BombManagerScript : MonoBehaviour
         }
     }
 
-    void Update()
+    /*void Update()
     {
         //Debug.Log("Update");
         Vector3 vect = new Vector3(4 * Time.deltaTime * dx, 0.0f, 4 * Time.deltaTime * dz);
         transform.position += vect;
-    }
+    }*/
 
     public Vector2 getDirection()
     {
         return new Vector2(dx, dz);
+    }
+
+    public void ApplyBombInfo(BombInfo bombInfo)
+    {
+        bombGO.transform.position = bombInfo.position;
     }
 }
