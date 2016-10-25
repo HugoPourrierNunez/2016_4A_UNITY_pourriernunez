@@ -250,8 +250,8 @@ public class IAMoveScriptToEnd : MonoBehaviour
         switch (i)
         {
             case 1://up
-                //transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y, transformIA.position.z + speedIA);
-                transformIA.Translate(Vector3.forward * Time.deltaTime * speedIA);
+                transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y, transformIA.position.z + speedIA);
+                //transformIA.Translate(Vector3.forward * Time.deltaTime * speedIA);
                 Debug.Log("Monte");
                 break;
             case 2://up right
@@ -260,8 +260,8 @@ public class IAMoveScriptToEnd : MonoBehaviour
                 Debug.Log("Monte + Droite");
                 break;
             case 3://right
-                //transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y, transformIA.position.z);
-                transformIA.Translate(Vector3.right * Time.deltaTime * speedIA);
+                transformIA.position = new Vector3(transformIA.position.x + speedIA, transformIA.position.y, transformIA.position.z);
+                //transformIA.Translate(Vector3.right * Time.deltaTime * speedIA);
                 Debug.Log("Droite");
                 break;
             case 4://down right
@@ -270,8 +270,8 @@ public class IAMoveScriptToEnd : MonoBehaviour
                 Debug.Log("Descend + Droite");
                 break;
             case 5://down
-                //transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y, transformIA.position.z - speedIA);
-                transformIA.Translate(Vector3.back * Time.deltaTime * speedIA);
+                transformIA.position = new Vector3(transformIA.position.x, transformIA.position.y, transformIA.position.z - speedIA);
+                //transformIA.Translate(Vector3.back * Time.deltaTime * speedIA);
                 Debug.Log("Descend");
                 break;
             case 6://down left
@@ -280,8 +280,8 @@ public class IAMoveScriptToEnd : MonoBehaviour
                 Debug.Log("Descend + Gauche");
                 break;
             case 7://left
-                //transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y, transformIA.position.z);
-                transformIA.Translate(Vector3.left * Time.deltaTime * speedIA);
+                transformIA.position = new Vector3(transformIA.position.x - speedIA, transformIA.position.y, transformIA.position.z);
+                //transformIA.Translate(Vector3.left * Time.deltaTime * speedIA);
                 Debug.Log("Gauche");
                 break;
             case 8://up left 
