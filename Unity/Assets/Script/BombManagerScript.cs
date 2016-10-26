@@ -81,7 +81,7 @@ public class BombManagerScript : MonoBehaviour
         if(bombInfo.state == BombState.Explosion)
         {
             float time = bombInfo.delay % 50f; 
-            if(bombInfo.delay > 20)
+            if(time > 25)
             {
                 rendererBomb.material.color = Color.red;
             }
@@ -90,7 +90,5 @@ public class BombManagerScript : MonoBehaviour
                 rendererBomb.material.color = Color.black;
             }
         }
-        
-        //if(bombGO.)
     }
 }

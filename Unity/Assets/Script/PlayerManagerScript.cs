@@ -10,8 +10,6 @@ public class PlayerManagerScript : MonoBehaviour {
         this.gameManagerScript = gmScript;
     }
 
-
-
     // Use this for initialization
     void Start () {
 	    

@@ -98,10 +98,14 @@ public class CollisionManagerScript : MonoBehaviour
         gameState.iaPosition.z += 4 * Time.deltaTime * gameState.iaDirection.y;
 
         // MAJ delay bombes 
-        var countBombs = bombs.Length;
-        for(var y = 0;  y < countBombs; y++)
+        for(var y = 0;  y < nbBombs; y++)
         {
             this.bombs[y].delay -= (Time.time*1000) - gameState.timeSinceStart;
+
+            if(this.bombs[y].delay <= 0)
+            {
+                this.bombs[y].state = BombState.Normal;
+            }
         }
 
         //Modif
