@@ -6,6 +6,11 @@ using System.Linq;
 
 public class IAMoveScriptToEnd : MonoBehaviour
 {
+    GameManagerScript gameManagerScript;
+
+    [SerializeField]
+    private int maxIteration;
+
     [SerializeField]
     private Transform transformIA;
 
@@ -18,20 +23,50 @@ public class IAMoveScriptToEnd : MonoBehaviour
     [SerializeField]
     private float speedIA = 1f;
 
-    private Stack<matrixNode> path;
+    private Stack<MatrixNode> path;
     private bool bCollision;
     private float prevX;
     private float prevY;
 
+    Vector2[] Direction = new Vector2[8]
+    {
+        new Vector2(0.0f, 1.0f),
+        new Vector2(0.71f, 0.71f),
+        new Vector2(1.0f, 0.0f),
+        new Vector2(-0.71f, 0.71f),
+        new Vector2(-1.0f, 0.0f),
+        new Vector2(-0.71f, -0.71f),
+        new Vector2(0.0f, -1.0f),
+        new Vector2(0.71f, -0.71f)
+    };
+
+    float[] curWeight = new float[8];
+    MatrixNode[] lowestNodes = new MatrixNode[8];
+
+    public void setGameManagerScript(GameManagerScript gmScript)
+    {
+        this.gameManagerScript = gmScript;
+    }
+
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         bCollision = false;
-        path = unitTest_AStar();
+        //path = unitTest_AStar();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    public Vector2 getNextIaDirection(GameState gameState)
+    {
+        var node = new MatrixNode();
+        //var wrapper = new GameStateWrapper(gameState);
+
+        var bestNode = AStarFunc(gameState, 0, 0, node);
+
+        return bestNode.direction;
+    }
+
+    // Update is called once per frame
+    /*void Update ()
     {
         if (path.Count > 0)
         {
@@ -109,13 +144,35 @@ public class IAMoveScriptToEnd : MonoBehaviour
                 prevY = node.y;
             }
         }
+    }*/
+
+    public class MatrixNode
+    {
+        //public matrixNode parent;
+        public Vector2 direction { get; set; }
+        public float weight { get; set; }
     }
 
-    public class matrixNode
+    /*public class GameStateWrapper
     {
-        public float fr = 0, to = 0, sum = 0;
-        public float x, y;
-        public matrixNode parent;
+        public BombInfo[] bombs { get; set; }
+        public Vector3 iaPosition { get; set; }
+        public Vector2 iaDirection { get; set; }
+        public float distToIa { get; set; }
+
+        public GameStateWrapper(GameState gameState)
+        {
+            this.bombs = gameState.bombs;
+            this.iaPosition = gameState.iaPosition;
+            this.iaDirection = gameState.iaDirection;
+            this.distToIa = gameState.minDistToIA;
+        }
+
+        public float GetGameStateWeight()
+        {
+
+            return 1.0f;
+        }
     }
 
     public Stack<matrixNode> unitTest_AStar()
@@ -127,7 +184,7 @@ public class IAMoveScriptToEnd : MonoBehaviour
         float toY = transformEnd.position.z;
 
         // On récupère ici le dernier maillon de la chaine
-        matrixNode endNode = AStarFunc(fromX, fromY, toX, toY);
+        matrixNode endNode = AStarFunc(gameManagerScript.ActualGameState, fromX, fromY, toX, toY);
         
         // On instancie la pile du chemin le plus court
         // On aura donc une pile de GameState ici
@@ -146,103 +203,57 @@ public class IAMoveScriptToEnd : MonoBehaviour
                             "(" + fromX + "," + fromY + ")  to " +
                             "(" + toX + "," + toY + ")  is:  \n");
         return path;
-    }
+    }*/
 
-    public matrixNode AStarFunc(float fromX, float fromY, float toX, float toY)
+    float minWeight;
+    int minIndex;
+
+    public MatrixNode AStarFunc(GameState gameState, float prevWeight, int n, MatrixNode node)
     {
-        Dictionary<string, matrixNode> greens = new Dictionary<string, matrixNode>(); 
-        // Dictionnaire des positions déjà occupée, pour éviter la marche arrière
-        Dictionary<string, matrixNode> reds = new Dictionary<string, matrixNode>(); 
+        minWeight = float.MaxValue;
+        minIndex = -1;
 
-        matrixNode startNode = new matrixNode { x = fromX, y = fromY };
-        string key = startNode.x.ToString() + startNode.y.ToString();
-        greens.Add(key, startNode);
-
-        Func<KeyValuePair<string, matrixNode>> smallestGreen = () =>
+        for (var i = 0; i < 8; i++)
         {
-            KeyValuePair<string, matrixNode> smallest = greens.ElementAt(0);
+            gameState.iaDirection = Direction[i];
 
-            foreach (KeyValuePair<string, matrixNode> item in greens)
+            ///////////////////////////////////////////////////////////////////////////////////////
+            //                            DECLARATION DU POIDS                                   //
+            ///////////////////////////////////////////////////////////////////////////////////////
+            curWeight[i] = 1 / gameManagerScript.CollisionManagerScript.GetGameStateWeight(gameState);
+
+            if (curWeight[i] == -1)
             {
-                if (item.Value.sum < smallest.Value.sum)
-                    smallest = item;
-                else if (item.Value.sum == smallest.Value.sum
-                        && item.Value.to < smallest.Value.to)
-                    smallest = item;
+                curWeight[i] = float.MaxValue;
+            }
+            else
+            {
+                curWeight[i] += prevWeight;
             }
 
-            return smallest;
-        };
+            node.direction = Direction[i];
+            node.weight = curWeight[i];
 
-
-        //On a la liste des voisins 
-        List<KeyValuePair<int, int>> neighbors = new List<KeyValuePair<int, int>>()
-                                        { new KeyValuePair<int, int>(-1,0),
-                                            new KeyValuePair<int, int>(-1, 1),
-                                            new KeyValuePair<int, int>(0,1),
-                                            new KeyValuePair<int, int>(1, 1),
-                                            new KeyValuePair<int, int>(1, 0),
-                                            new KeyValuePair<int, int>(1, -1),
-                                            new KeyValuePair<int, int>(0,-1),
-                                            new KeyValuePair<int, int>(-1, -1)};
-
-
-        // On récupère les limites du terrain
-        float maxX = rendererArene.bounds.size.z / 2; 
-        float minX = -maxX;
-        if (maxX == 0)
-            return null;
-
-        float maxY = rendererArene.bounds.size.x / 2;
-        float minY = -maxY;
-
-        while (true)
-        {
-            if (greens.Count == 0)
-                return null;
-
-            KeyValuePair<string, matrixNode> current = smallestGreen();
-
-            // Arrivée à la sortie, on sort de la boucle
-            if (current.Value.x == toX && current.Value.y == toY)
-                return current.Value;
-
-            greens.Remove(current.Key);
-            reds.Add(current.Key, current.Value);
-
-            foreach (KeyValuePair<int, int> plusXY in neighbors)
+            if (++n > maxIteration)
             {
-                float nbrX = current.Value.x + plusXY.Key;
-                float nbrY = current.Value.y + plusXY.Value;
-                string nbrKey = nbrX.ToString() + nbrY.ToString();
-
-                if (nbrX < minX || nbrY < minY || nbrX >= maxX || nbrY >= maxY
-                    || bCollision 
-                    || reds.ContainsKey(nbrKey))
-                    continue;
-
-                if (greens.ContainsKey(nbrKey))
-                {
-                    matrixNode curNbr = greens[nbrKey];
-                    float from = Math.Abs(nbrX - fromX) + Math.Abs(nbrY - fromY);
-                    if (from < curNbr.fr)
-                    {
-                        curNbr.fr = from;
-                        curNbr.sum = curNbr.fr + curNbr.to;
-                        curNbr.parent = current.Value;
-                    }
-                }
-                else
-                {
-                    matrixNode curNbr = new matrixNode { x = nbrX, y = nbrY };
-                    curNbr.fr = Math.Abs(nbrX - fromX) + Math.Abs(nbrY - fromY);
-                    curNbr.to = Math.Abs(nbrX - toX) + Math.Abs(nbrY - toY);
-                    curNbr.sum = curNbr.fr + curNbr.to;
-                    curNbr.parent = current.Value;
-                    greens.Add(nbrKey, curNbr);
-                }
+                lowestNodes[i] = AStarFunc(gameState, curWeight[i], n, node);
+            }
+            else
+            {
+                lowestNodes[i] = node;
             }
         }
+
+        for (var i = 0; i < 8; i++)
+        {
+            if (lowestNodes[i].weight < minWeight)
+            {
+                minWeight = lowestNodes[i].weight;
+                minIndex = i;
+            }
+        }
+
+        return lowestNodes[minIndex];
     }
 
     void moveIA(int i)

@@ -138,7 +138,7 @@ public class StateManagerScript : MonoBehaviour {
 
     private GameState GetNextState(GameState gameState)
     {
-        gameState.bombs = gameManagerScript.CollisionManagerScript.HandleBombCollision(gameState);
+        gameState = gameManagerScript.CollisionManagerScript.HandleBombCollision(gameState);
         return gameState;
     }
 
@@ -153,7 +153,9 @@ public class StateManagerScript : MonoBehaviour {
 public struct GameState
 {
     public Vector3 iaPosition;
+    public Vector2 iaDirection;
     public BombInfo[] bombs;
+    public float minDistToIA;
 }
 
 public struct BombInfo
