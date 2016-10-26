@@ -117,7 +117,7 @@ public class CollisionManagerScript : MonoBehaviour
             gameState.bombs[i].position.z += 4 * Time.deltaTime * gameState.bombs[i].direction.y;
 
             if(Mathf.Sqrt(Mathf.Pow((gameState.bombs[i].position.x - transformPlayer.position.x), 2)
-                                        + Mathf.Pow((gameState.bombs[i].position.z - transformPlayer.position.z), 2)) < minDistToIA)
+                                        + Mathf.Pow((gameState.bombs[i].position.z - transformPlayer.position.z), 2)) < gameState.minDistToIA)
             {
                 gameState.minDistToIA = Mathf.Sqrt(Mathf.Pow((gameState.bombs[i].position.x - transformPlayer.position.x), 2)
                                             + Mathf.Pow((gameState.bombs[i].position.z - transformPlayer.position.z), 2));
