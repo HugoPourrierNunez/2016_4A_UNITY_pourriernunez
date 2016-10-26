@@ -31,9 +31,17 @@ public class CollisionManagerScript : MonoBehaviour
     [SerializeField]
     private Renderer planeRenderer;
 
+    [SerializeField]
+    private Transform transformPlayer;
+
+    [SerializeField]
+    private Renderer rendererPlayer;
+
     int nbBombs;
     float bombRadius = 0.5f;
     BombInfo[] bombs;
+    float minDistToIA;
+
     TriangularMatrixScript<float> bombsDistance;
 
     public BombInfo[] InitializeBombInfo()
@@ -75,11 +83,27 @@ public class CollisionManagerScript : MonoBehaviour
         var topWall = planeRenderer.bounds.size.z / 2;
         var rightWall = planeRenderer.bounds.size.x / 2;
         var leftWall = -planeRenderer.bounds.size.x / 2;
+        var sizeDivise = rendererPlayer.bounds.size.x / 2;
+
+        minDistToIA = 100.0f;
 
         for (var i = 0; i < nbBombs; i++)
         {
             bombs[i].position.x += 4 * Time.deltaTime * bombs[i].direction.x;
             bombs[i].position.z += 4 * Time.deltaTime * bombs[i].direction.y;
+
+            if(Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - transformPlayer.position.x), 2)
+                                        + Mathf.Pow((bombs[i].position.z - transformPlayer.position.z), 2)) < minDistToIA)
+            {
+                minDistToIA = Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - transformPlayer.position.x), 2)
+                                            + Mathf.Pow((bombs[i].position.z - transformPlayer.position.z), 2));
+            }
+
+            if(minDistToIA <= sizeDivise + bombRadius)
+            {
+                gameManagerScript.StateManagerScript.SetIaDeath();
+                return null;
+            }
         }
 
         for (var i = 0; i < nbBombs; i++)
