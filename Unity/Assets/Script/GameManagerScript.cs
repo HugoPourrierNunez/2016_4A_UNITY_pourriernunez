@@ -18,6 +18,9 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     IAManagerScript iaManagerScript;
 
+    [SerializeField]
+    PlayerManagerScript playerManagerScript;
+
     public CollisionManagerScript CollisionManagerScript
     {
         get
@@ -61,6 +64,7 @@ public class GameManagerScript : MonoBehaviour {
         collisionManagerScript.setGameManagerScript(this);
         stateManagerScript.setGameManagerScript(this);
         iaManagerScript.setGameManagerScript(this);
+        playerManagerScript.setGameManagerScript(this);
 
         initializeGameState();
     }
