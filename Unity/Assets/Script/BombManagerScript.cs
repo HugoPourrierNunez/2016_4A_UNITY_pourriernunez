@@ -13,10 +13,13 @@ public class BombManagerScript : MonoBehaviour
     public float dx { get; set; }
     public float dz { get; set; }
 
-    public void initializeBomb()
+    public void initializeBomb(Transform plane)
     {
-        this.x0 = transform.position.x;
-        this.z0 = transform.position.z;
+        /*this.x0 = transform.position.x;
+        this.z0 = transform.position.z;*/
+
+        this.x0 = Random.Range(plane.position.x - plane.localScale.x*5 +bombGO.transform.localScale.x/2, plane.position.x + plane.localScale.x *5 - bombGO.transform.localScale.x / 2);
+        this.z0 = Random.Range(plane.position.z - plane.localScale.z *5 + bombGO.transform.localScale.z / 2, plane.position.z + plane.localScale.z * 5 - bombGO.transform.localScale.z / 2);
 
         int random = Random.Range(1, 9);
 

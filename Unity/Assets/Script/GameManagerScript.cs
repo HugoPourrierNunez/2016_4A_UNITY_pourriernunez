@@ -15,6 +15,9 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     StateManagerScript stateManagerScript;
 
+    [SerializeField]
+    IAManagerScript iaManagerScript;
+
     public CollisionManagerScript CollisionManagerScript
     {
         get
@@ -57,19 +60,17 @@ public class GameManagerScript : MonoBehaviour {
         mapManagerScript.setGameManagerScript(this);
         collisionManagerScript.setGameManagerScript(this);
         stateManagerScript.setGameManagerScript(this);
+        iaManagerScript.setGameManagerScript(this);
 
         initializeGameState();
     }
-    
-    void OnEnabled()
-    {
-        initializeGameState();
-    }
 
-    void initializeGameState()
+    public void initializeGameState()
     {
-        stateManagerScript.SetIaDeath(false);
+        //Debug.Log("init gamestate");
         actualGameState = new GameState();
+
+        iaManagerScript.getIaTransform().position = new Vector3(-19, .5f, -19);
         actualGameState.bombs = collisionManagerScript.InitializeBombInfo();
     }
 }

@@ -46,7 +46,7 @@ public class CollisionManagerScript : MonoBehaviour
 
     public BombInfo[] InitializeBombInfo()
     {
-        Debug.Log("init bomb info");
+        //Debug.Log("init bomb info");
         nbBombs = bombManagers.Length;
 
         bombs = new BombInfo[nbBombs];
@@ -54,7 +54,7 @@ public class CollisionManagerScript : MonoBehaviour
 
         for (var i = 0; i < nbBombs; i++)
         {
-            bombManagers[i].initializeBomb();
+            bombManagers[i].initializeBomb(gameManagerScript.MapManagerScript.getPlaneTransform());
             bombs[i].position.x = bombManagers[i].x0;
             bombs[i].position.z = bombManagers[i].z0;
             bombs[i].direction.x = bombManagers[i].dx;
@@ -87,6 +87,20 @@ public class CollisionManagerScript : MonoBehaviour
 
         minDistToIA = 100.0f;
 
+        //Modif
+        Transform goalTransform = gameManagerScript.MapManagerScript.getGoalTransform();
+
+        if (transformPlayer.position.x > goalTransform.position.x-goalTransform.localScale.x/2 
+            && transformPlayer.position.x < goalTransform.position.x + goalTransform.localScale.x / 2
+            && transformPlayer.position.z > goalTransform.position.z - goalTransform.localScale.z / 2
+            && transformPlayer.position.z < goalTransform.position.z + goalTransform.localScale.z / 2)
+        {
+            gameManagerScript.StateManagerScript.EndGame(false);
+            return gameState.bombs;
+        }
+
+        //
+
         for (var i = 0; i < nbBombs; i++)
         {
             bombs[i].position.x += 4 * Time.deltaTime * bombs[i].direction.x;
@@ -101,7 +115,7 @@ public class CollisionManagerScript : MonoBehaviour
 
             if(minDistToIA <= sizeDivise + bombRadius)
             {
-                gameManagerScript.StateManagerScript.SetIaDeath(true);
+                gameManagerScript.StateManagerScript.EndGame(true);
                 return gameState.bombs;
             }
         }

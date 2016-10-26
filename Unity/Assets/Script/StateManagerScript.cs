@@ -20,6 +20,9 @@ public class StateManagerScript : MonoBehaviour {
     GameObject EndGameGo;
 
     [SerializeField]
+    Text endGameText;
+
+    [SerializeField]
     Button PlayGameButton;
 
     [SerializeField]
@@ -34,8 +37,12 @@ public class StateManagerScript : MonoBehaviour {
     [SerializeField]
     float inGameDelai;
 
+    [SerializeField]
+    GameObject mainCamera;
+
     bool iaIsDead = false;
 
+    ReactiveProperty<bool> endGame = new ReactiveProperty<bool>();
 
     GameManagerScript gameManagerScript;
 
@@ -44,21 +51,23 @@ public class StateManagerScript : MonoBehaviour {
         this.gameManagerScript = gmScript;
     }
 
-    public void SetIaDeath(bool isDead)
+    public void EndGame(bool isDead)
     {
-        Debug.Log("isdead");
+        //Debug.Log("isdead= "+ isDead);
         iaIsDead = isDead;
+        endGame.SetValueAndForceNotify(true);
     }
 
     // Use this for initialization
     void Start()
     {
+
         // NEW GAMESTATESTREAM WITH VIEW BINDINGS
         var gameStateStream = Observable.Return("start")
             .Concat(Observable.Return("logo"))
             .Concat(Observable.Return("menu").Delay(TimeSpan.FromSeconds(startLogoDelai)))
             .Concat(PlayGameButton.OnClickAsObservable().Take(1).Select(_ => "inGame"))
-            .Concat(Observable.Return("endGame").Where(_ => iaIsDead))
+            .Concat(endGame.Where(val => val==true).Take(1).Select(_ => "endGame"))
             .Concat(RestartGameButton.OnClickAsObservable().Take(1).Select(_ => "restartGame"))
             .Repeat().Share();
 
@@ -97,8 +106,18 @@ public class StateManagerScript : MonoBehaviour {
         // Root gameobjects activation bindings
         logoIsActiveStream.Subscribe(LogoGo.SetActive);
         menuIsActiveStream.Subscribe(MenuGo.SetActive);
-        inGameIsActiveStream.Subscribe(InGameGo.SetActive);
-        endGameIsActiveStream.Subscribe(EndGameGo.SetActive);
+        inGameIsActiveStream.Subscribe(_ => {
+            mainCamera.SetActive(false);
+            InGameGo.SetActive(_);
+        });
+        endGameIsActiveStream.Subscribe(_ => {
+            mainCamera.SetActive(true);
+            endGameText.text = iaIsDead ? "IA LOSE" : "IA WIN";
+            EndGameGo.SetActive(_);
+            iaIsDead = false;
+            endGame.SetValueAndForceNotify(false);
+            gameManagerScript.initializeGameState();
+        });
 
         // internal custom game State Stream
         var inGameGameStateStream = inGameGameStream

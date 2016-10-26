@@ -6,7 +6,7 @@ public class MapManagerScript : MonoBehaviour
 {
 
     [SerializeField]
-    Plane plane;
+    Transform plane;
 
     [SerializeField]
     Transform entry;
@@ -22,5 +22,15 @@ public class MapManagerScript : MonoBehaviour
     public void setGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
+    }
+
+    public Transform getGoalTransform()
+    {
+        return goal;
+    }
+
+    public Transform getPlaneTransform()
+    {
+        return plane;
     }
 }

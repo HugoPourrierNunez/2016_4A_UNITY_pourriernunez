@@ -16,6 +16,18 @@ public class IAManagerScript : MonoBehaviour
     [SerializeField]
     private Renderer planeRenderer;
 
+    GameManagerScript gameManagerScript;
+
+    public void setGameManagerScript(GameManagerScript gmScript)
+    {
+        this.gameManagerScript = gmScript;
+    }
+
+    public Transform getIaTransform()
+    {
+        return transformPlayer;
+    }
+
     // Update is called once per frame
     void Update()
     {
