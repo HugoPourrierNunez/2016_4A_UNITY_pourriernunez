@@ -16,12 +16,6 @@ public class IAManagerScript : MonoBehaviour
     [SerializeField]
     private Renderer planeRenderer;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
