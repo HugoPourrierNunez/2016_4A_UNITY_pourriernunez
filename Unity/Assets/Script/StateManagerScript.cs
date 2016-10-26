@@ -46,6 +46,7 @@ public class StateManagerScript : MonoBehaviour {
 
     public void SetIaDeath(bool isDead)
     {
+        Debug.Log("isdead");
         iaIsDead = isDead;
     }
 

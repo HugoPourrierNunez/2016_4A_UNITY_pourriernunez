@@ -35,7 +35,7 @@ public class GameManagerScript : MonoBehaviour {
     {
         get
         {
-            return StateManagerScript;
+            return stateManagerScript;
         }
     }
 
