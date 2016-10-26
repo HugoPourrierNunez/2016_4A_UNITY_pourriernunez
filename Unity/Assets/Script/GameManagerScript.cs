@@ -18,6 +18,9 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     IAManagerScript iaManagerScript;
 
+    [SerializeField]
+    PlayerManagerScript playerManagerScript;
+
     public CollisionManagerScript CollisionManagerScript
     {
         get
@@ -69,6 +72,7 @@ public class GameManagerScript : MonoBehaviour {
         collisionManagerScript.setGameManagerScript(this);
         stateManagerScript.setGameManagerScript(this);
         iaManagerScript.setGameManagerScript(this);
+        playerManagerScript.setGameManagerScript(this);
 
         initializeGameState();
     }
@@ -80,5 +84,6 @@ public class GameManagerScript : MonoBehaviour {
 
         iaManagerScript.getIaTransform().position = new Vector3(-19, .5f, -19);
         actualGameState.bombs = collisionManagerScript.InitializeBombInfo();
+        actualGameState.timeSinceStart = Time.time * 1000;
     }
 }

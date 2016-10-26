@@ -95,6 +95,17 @@ public class CollisionManagerScript : MonoBehaviour
         gameState.iaPosition.x += 4 * Time.deltaTime * gameState.iaDirection.x;
         gameState.iaPosition.z += 4 * Time.deltaTime * gameState.iaDirection.y;
 
+        // MAJ delay bombes 
+        for(var y = 0;  y < nbBombs; y++)
+        {
+            this.bombs[y].delay -= (Time.time*1000) - gameState.timeSinceStart;
+
+            if(this.bombs[y].delay <= 0)
+            {
+                this.bombs[y].state = BombState.Normal;
+            }
+        }
+
         //Modif
         Transform goalTransform = gameManagerScript.MapManagerScript.getGoalTransform();
 
@@ -106,8 +117,6 @@ public class CollisionManagerScript : MonoBehaviour
             gameManagerScript.StateManagerScript.EndGame(false);
             return gameState;
         }
-
-        //
 
         for (var i = 0; i < nbBombs; i++)
         {

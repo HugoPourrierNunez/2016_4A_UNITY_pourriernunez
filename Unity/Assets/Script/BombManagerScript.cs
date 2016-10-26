@@ -7,6 +7,8 @@ public class BombManagerScript : MonoBehaviour
     [SerializeField]
     GameObject bombGO;
 
+    [SerializeField]
+    Renderer rendererBomb;
 
     public float x0 { get; set; }
     public float z0 { get; set; }
@@ -75,5 +77,18 @@ public class BombManagerScript : MonoBehaviour
     public void ApplyBombInfo(BombInfo bombInfo)
     {
         bombGO.transform.position = bombInfo.position;
+
+        if(bombInfo.state == BombState.Explosion)
+        {
+            float time = bombInfo.delay % 50f; 
+            if(time > 25)
+            {
+                rendererBomb.material.color = Color.red;
+            }
+            else
+            {
+                rendererBomb.material.color = Color.black;
+            }
+        }
     }
 }
