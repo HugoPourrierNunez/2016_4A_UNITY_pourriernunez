@@ -131,6 +131,9 @@ public class StateManagerScript : MonoBehaviour {
         // Side effect of the inGame GameState change (update the view)
         inGameGameStateStream.Subscribe(_ => {
             gameManagerScript.ActualGameState = GetNextState(gameManagerScript.ActualGameState);
+            GameState gs = gameManagerScript.ActualGameState;
+            gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
+            gameManagerScript.ActualGameState = gs;
             ApplyGameState();
             });
 
@@ -146,6 +149,7 @@ public class StateManagerScript : MonoBehaviour {
     {
         //A completer
         gameManagerScript.CollisionManagerScript.applyStateToBombs(gameManagerScript.ActualGameState);
+        gameManagerScript.IaManagerScript.ApplyStateToIa(gameManagerScript.ActualGameState);
     }
 }
 

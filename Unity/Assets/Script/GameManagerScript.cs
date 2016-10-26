@@ -34,6 +34,14 @@ public class GameManagerScript : MonoBehaviour {
         }
     }
 
+    public IAManagerScript IaManagerScript
+    {
+        get
+        {
+            return iaManagerScript;
+        }
+    }
+
     public StateManagerScript StateManagerScript
     {
         get

@@ -4,6 +4,38 @@ using System.Collections;
 public class IAManagerScript : MonoBehaviour
 {
 
+
+    [SerializeField]
+    private int maxIteration;
+
+    [SerializeField]
+    private Transform transformIA;
+
+    [SerializeField]
+    private Transform transformEnd;
+
+    [SerializeField]
+    private Renderer rendererArene;
+
+    private bool bCollision;
+    private float prevX;
+    private float prevY;
+
+    Vector2[] Direction = new Vector2[8]
+    {
+        new Vector2(0.0f, 1.0f),
+        new Vector2(0.71f, 0.71f),
+        new Vector2(1.0f, 0.0f),
+        new Vector2(-0.71f, 0.71f),
+        new Vector2(-1.0f, 0.0f),
+        new Vector2(-0.71f, -0.71f),
+        new Vector2(0.0f, -1.0f),
+        new Vector2(0.71f, -0.71f)
+    };
+
+    float[] curWeight = new float[8];
+    MatrixNode[] lowestNodes = new MatrixNode[8];
+
     [SerializeField]
     private Transform transformPlayer;
 
@@ -28,52 +60,74 @@ public class IAManagerScript : MonoBehaviour
         return transformPlayer;
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector2 getNextIaDirection(GameState gameState)
     {
-        MoveController();
+        var node = new MatrixNode();
+
+        var bestNode = AStarFunc(gameState, 0, 0, node);
+
+        return bestNode.direction;
     }
 
-    void MoveController()
+    public class MatrixNode
     {
-        var iaMoveDirection = new Vector3(0.0f, 0.0f, 0.0f);
+        public Vector2 direction { get; set; }
+        public float weight { get; set; }
+    }
 
-        var maxPlaneX = planeRenderer.bounds.size.x / 2;
-        var minPlaneX = -maxPlaneX;
+    float minWeight;
+    int minIndex;
 
-        var maxPlaneY = planeRenderer.bounds.size.z / 2;
-        var minPlaneY = -maxPlaneY;
+    public MatrixNode AStarFunc(GameState gameState, float prevWeight, int n, MatrixNode node)
+    {
+        minWeight = float.MaxValue;
+        minIndex = -1;
 
-        var sizeDivise = rendererPlayer.bounds.size.x / 2;
-
-        if (Input.GetKey("up"))
+        for (var i = 0; i < 8; i++)
         {
-            iaMoveDirection.z = speedIA;
-        }
-        if (Input.GetKey("down"))
-        {
-            iaMoveDirection.z = -speedIA;
-        }
-        if (Input.GetKey("right"))
-        {
-            iaMoveDirection.x = speedIA;
-        }
-        if (Input.GetKey("left"))
-        {
-            iaMoveDirection.x = -speedIA;
+            gameState.iaDirection = Direction[i];
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            //                            DECLARATION DU POIDS                                   //
+            ///////////////////////////////////////////////////////////////////////////////////////
+            curWeight[i] = 1 / gameManagerScript.CollisionManagerScript.GetGameStateWeight(gameState);
+
+            if (curWeight[i] == -1)
+            {
+                curWeight[i] = float.MaxValue;
+            }
+            else
+            {
+                curWeight[i] += prevWeight;
+            }
+
+            node.direction = Direction[i];
+            node.weight = curWeight[i];
+
+            if (++n < maxIteration)
+            {
+                lowestNodes[i] = AStarFunc(gameState, curWeight[i], n, node);
+            }
+            else
+            {
+                lowestNodes[i] = node;
+            }
         }
 
-
-        if (transformPlayer.position.x + iaMoveDirection.x + sizeDivise >= maxPlaneX || transformPlayer.position.x + iaMoveDirection.x - sizeDivise <= minPlaneX)
+        for (var i = 0; i < 8; i++)
         {
-            iaMoveDirection.x = 0.0f;
+            if (lowestNodes[i].weight < minWeight)
+            {
+                minWeight = lowestNodes[i].weight;
+                minIndex = i;
+            }
         }
 
-        if (transformPlayer.position.z + iaMoveDirection.z + sizeDivise >= maxPlaneY || transformPlayer.position.z + iaMoveDirection.z - sizeDivise <= minPlaneY)
-        {
-            iaMoveDirection.z = 0.0f;
-        }
+        return lowestNodes[minIndex];
+    }
 
-        transformPlayer.position += iaMoveDirection;
+    public void ApplyStateToIa(GameState gameState)
+    {
+        transformIA.position = new Vector3(gameState.iaPosition.x + gameState.iaDirection.x * speedIA * Time.deltaTime, 0.0f, gameState.iaPosition.z + gameState.iaDirection.y * speedIA * Time.deltaTime);
     }
 }

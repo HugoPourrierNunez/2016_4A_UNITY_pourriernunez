@@ -77,9 +77,7 @@ public class CollisionManagerScript : MonoBehaviour
 
     public float GetGameStateWeight(GameState gameState)
     {
-        gameState = HandleBombCollision(gameState);
-
-        return gameState.minDistToIA;
+        return HandleBombCollision(gameState).minDistToIA;
     }
 
     public GameState HandleBombCollision(GameState gameState)
