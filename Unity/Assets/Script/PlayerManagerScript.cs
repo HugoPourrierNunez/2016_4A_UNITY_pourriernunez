@@ -19,28 +19,28 @@ public class PlayerManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        SelectObject();
+        TriggerExplosion();
 	}
 
-    void SelectObject()
+    void TriggerExplosion()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            int j=0;//TODO : takeoff
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f))
+            if (Physics.Raycast(ray, out hit, 100.0f))//récupère la cible de la souris
             {
-                for(int i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)
+                for(int i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)//parcours du tableau des bombes
                 {
-                    if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))
+                    if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))//identification de la cible dans le tableau
                     {
-                        gameManagerScript.ActualGameState.bombs[i].state = BombState.Explosion;
-                        j = i;
+                        if(gameManagerScript.ActualGameState.bombs[i].state != BombState.Explosion)//vérifie que la bombe n'est pas déjà en train d'exploser
+                        {
+                            gameManagerScript.ActualGameState.bombs[i].state = BombState.Explosion;//mise à jour du bombstate
+                            gameManagerScript.ActualGameState.bombs[i].delay = 2000;//initialisation du délai d'explosion
+                        }
                     }
                 }
-                Debug.Log("You selected the " + hit.transform.name + " correspondant à " + gameManagerScript.CollisionManagerScript.bombManagers[j]); // ensure you picked right object
-                Debug.Log(gameManagerScript.ActualGameState.bombs[j].state);
             }
         }
     }
