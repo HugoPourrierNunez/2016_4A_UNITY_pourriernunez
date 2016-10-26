@@ -76,5 +76,6 @@ public class GameManagerScript : MonoBehaviour {
 
         iaManagerScript.getIaTransform().position = new Vector3(-19, .5f, -19);
         actualGameState.bombs = collisionManagerScript.InitializeBombInfo();
+        actualGameState.timeSinceStart = Time.time * 1000;
     }
 }

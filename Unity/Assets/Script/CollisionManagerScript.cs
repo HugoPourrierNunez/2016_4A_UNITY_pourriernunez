@@ -78,7 +78,7 @@ public class CollisionManagerScript : MonoBehaviour
     public float GetGameStateWeight(GameState gameState)
     {
         gameState = HandleBombCollision(gameState);
-
+        
         return gameState.minDistToIA;
     }
 
@@ -97,6 +97,13 @@ public class CollisionManagerScript : MonoBehaviour
         gameState.iaPosition.x += 4 * Time.deltaTime * gameState.iaDirection.x;
         gameState.iaPosition.z += 4 * Time.deltaTime * gameState.iaDirection.y;
 
+        // MAJ delay bombes 
+        var countBombs = bombs.Length;
+        for(var y = 0;  y < countBombs; y++)
+        {
+            this.bombs[y].delay -= (Time.time*1000) - gameState.timeSinceStart;
+        }
+
         //Modif
         Transform goalTransform = gameManagerScript.MapManagerScript.getGoalTransform();
 
@@ -108,8 +115,6 @@ public class CollisionManagerScript : MonoBehaviour
             gameManagerScript.StateManagerScript.EndGame(false);
             return gameState;
         }
-
-        //
 
         for (var i = 0; i < nbBombs; i++)
         {

@@ -6,7 +6,6 @@ using UniRx.Triggers;
 using UnityEngine.UI;
 
 public class StateManagerScript : MonoBehaviour {
-
     [SerializeField]
     GameObject LogoGo;
 
@@ -61,7 +60,6 @@ public class StateManagerScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
         // NEW GAMESTATESTREAM WITH VIEW BINDINGS
         var gameStateStream = Observable.Return("start")
             .Concat(Observable.Return("logo"))
@@ -139,6 +137,7 @@ public class StateManagerScript : MonoBehaviour {
     private GameState GetNextState(GameState gameState)
     {
         gameState = gameManagerScript.CollisionManagerScript.HandleBombCollision(gameState);
+        gameState.timeSinceStart = Time.time * 1000;
         return gameState;
     }
 
@@ -155,6 +154,7 @@ public struct GameState
     public Vector3 iaPosition;
     public Vector2 iaDirection;
     public BombInfo[] bombs;
+    public float timeSinceStart;
     public float minDistToIA;
 }
 
