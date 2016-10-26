@@ -34,12 +34,19 @@ public class StateManagerScript : MonoBehaviour {
     [SerializeField]
     float inGameDelai;
 
+    bool iaIsDead = false;
+
 
     GameManagerScript gameManagerScript;
 
     public void setGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
+    }
+
+    public void SetIaDeath(bool isDead)
+    {
+        iaIsDead = isDead;
     }
 
     // Use this for initialization
@@ -50,9 +57,8 @@ public class StateManagerScript : MonoBehaviour {
             .Concat(Observable.Return("logo"))
             .Concat(Observable.Return("menu").Delay(TimeSpan.FromSeconds(startLogoDelai)))
             .Concat(PlayGameButton.OnClickAsObservable().Take(1).Select(_ => "inGame"))
-            .Concat(Observable.Return("endGame").Delay(TimeSpan.FromSeconds(inGameDelai)))
+            .Concat(Observable.Return("endGame").Where(_ => iaIsDead))
             .Concat(RestartGameButton.OnClickAsObservable().Take(1).Select(_ => "restartGame"))
-            //.Concat(QuitGameButton.OnClickAsObservable().Take(1).Select(_ => "restartGame"))
             .Repeat().Share();
 
         // Specialized gamestate streams
@@ -86,8 +92,6 @@ public class StateManagerScript : MonoBehaviour {
             )
             .TakeUntil(endGameGameStream);
             
-
-        pauseStatusStream.Subscribe(elt => Debug.Log(elt));
 
         // Root gameobjects activation bindings
         logoIsActiveStream.Subscribe(LogoGo.SetActive);

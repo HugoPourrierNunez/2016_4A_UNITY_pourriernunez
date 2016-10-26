@@ -68,6 +68,7 @@ public class GameManagerScript : MonoBehaviour {
 
     void initializeGameState()
     {
+        stateManagerScript.SetIaDeath(false);
         actualGameState = new GameState();
         actualGameState.bombs = collisionManagerScript.InitializeBombInfo();
     }

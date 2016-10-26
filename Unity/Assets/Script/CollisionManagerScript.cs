@@ -101,7 +101,7 @@ public class CollisionManagerScript : MonoBehaviour
 
             if(minDistToIA <= sizeDivise + bombRadius)
             {
-                gameManagerScript.StateManagerScript.SetIaDeath();
+                gameManagerScript.StateManagerScript.SetIaDeath(true);
                 return null;
             }
         }
