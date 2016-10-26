@@ -28,12 +28,11 @@ public class CollisionManagerScript : MonoBehaviour
     [SerializeField]
     public BombManagerScript[] bombManagers;
 
+    [SerializeField]
+    private Renderer planeRenderer;
+
     int nbBombs;
     float bombRadius = 0.5f;
-    float bottomWall = -20.0f;
-    float topWall = 20.0f;
-    float rightWall = 20.0f;
-    float leftWall = -20.0f;
     BombInfo[] bombs;
     TriangularMatrixScript<float> bombsDistance;
 
@@ -72,10 +71,13 @@ public class CollisionManagerScript : MonoBehaviour
     {
         var bombs = gameState.bombs;
         var nbBombs = bombs.Length;
+        var bottomWall = -planeRenderer.bounds.size.z / 2;
+        var topWall = planeRenderer.bounds.size.z / 2;
+        var rightWall = planeRenderer.bounds.size.x / 2;
+        var leftWall = -planeRenderer.bounds.size.x / 2;
 
         for (var i = 0; i < nbBombs; i++)
         {
-            //Debug.Log("test");
             bombs[i].position.x += 4 * Time.deltaTime * bombs[i].direction.x;
             bombs[i].position.z += 4 * Time.deltaTime * bombs[i].direction.y;
         }
