@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -430,7 +430,7 @@ Transform:
   m_Children:
   - {fileID: 1493777134}
   m_Father: {fileID: 319646661}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!1 &277661694
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,11 +627,52 @@ Transform:
   - {fileID: 698118861}
   - {fileID: 562546744}
   - {fileID: 1149942499}
+  - {fileID: 322542820}
   - {fileID: 1234477088}
   - {fileID: 2024121017}
   - {fileID: 267684852}
   m_Father: {fileID: 0}
   m_RootOrder: 7
+--- !u!1 &322542819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 322542820}
+  - 114: {fileID: 322542821}
+  m_Layer: 0
+  m_Name: PlayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &322542820
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 322542819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 319646661}
+  m_RootOrder: 3
+--- !u!114 &322542821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 322542819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf3ed2b23686eb499b9c002f102908a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &326561743 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000012626859122, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
@@ -904,6 +945,7 @@ MonoBehaviour:
   mapManagerScript: {fileID: 698118860}
   stateManagerScript: {fileID: 277661695}
   iaManagerScript: {fileID: 2024121016}
+  playerManagerScript: {fileID: 322542821}
 --- !u!4 &562546744
 Transform:
   m_ObjectHideFlags: 0
@@ -1959,7 +2001,7 @@ Transform:
   - {fileID: 1434931566}
   - {fileID: 1226236748}
   m_Father: {fileID: 319646661}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!4 &1252593239 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000012626859122, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
@@ -2694,7 +2736,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1750139655}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1887774769}
+        m_MethodName: ClickQuit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1750139655
@@ -2892,6 +2945,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1887774768}
+  - 114: {fileID: 1887774769}
   m_Layer: 0
   m_Name: EndMenu
   m_TagString: Untagged
@@ -2913,6 +2967,17 @@ Transform:
   - {fileID: 319235321}
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!114 &1887774769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887774767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a58223fbd6c85142b22960ef4eab188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1905948270
 Prefab:
   m_ObjectHideFlags: 0
@@ -3297,7 +3362,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 319646661}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1001 &2097434205
 Prefab:
   m_ObjectHideFlags: 0
