@@ -27,32 +27,32 @@ public class BombManagerScript : MonoBehaviour
                 this.dz = 1.0f;
                 break;
             case 2:
-                this.dx = Mathf.Sqrt(2.0f);
-                this.dz = Mathf.Sqrt(2.0f);
+                this.dx = Mathf.Sqrt(0.5f);
+                this.dz = Mathf.Sqrt(0.5f);
                 break;
             case 3:
                 this.dx = 1.0f;
                 this.dz = 0.0f;
                 break;
             case 4:
-                this.dx = Mathf.Sqrt(2.0f);
-                this.dz = -Mathf.Sqrt(2.0f);
+                this.dx = Mathf.Sqrt(0.5f);
+                this.dz = -Mathf.Sqrt(0.5f);
                 break;
             case 5:
                 this.dx = 0.0f;
                 this.dz = -1.0f;
                 break;
             case 6:
-                this.dx = -Mathf.Sqrt(2.0f);
-                this.dz = -Mathf.Sqrt(2.0f);
+                this.dx = -Mathf.Sqrt(0.5f);
+                this.dz = -Mathf.Sqrt(0.5f);
                 break;
             case 7:
                 this.dx = -1.0f;
                 this.dz = 0.0f;
                 break;
             case 8:
-                this.dx = Mathf.Sqrt(2.0f);
-                this.dz = -Mathf.Sqrt(2.0f);
+                this.dx = Mathf.Sqrt(0.5f);
+                this.dz = -Mathf.Sqrt(0.5f);
                 break;
         }
     }
