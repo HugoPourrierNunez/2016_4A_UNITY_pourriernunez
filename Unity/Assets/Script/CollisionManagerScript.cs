@@ -204,6 +204,7 @@ public class CollisionManagerScript : MonoBehaviour
             return;
         }
 
+
         for (var i = 0; i < nbBombs; i++)
         {
             nextGameState.bombs[i].state = actualGameState.bombs[i].state;
@@ -218,11 +219,6 @@ public class CollisionManagerScript : MonoBehaviour
 
             nextGameState.bombs[i].position.x = actualGameState.bombs[i].position.x +(bombSpeed * Time.deltaTime * nextGameState.bombs[i].direction.x);
             nextGameState.bombs[i].position.z = actualGameState.bombs[i].position.z + (bombSpeed * Time.deltaTime * nextGameState.bombs[i].direction.z);
-
-            nextGameState.iaPosition.x = actualGameState.iaPosition.x;
-            nextGameState.iaPosition.z = actualGameState.iaPosition.z;
-            nextGameState.minDistToIA = actualGameState.minDistToIA;
-
             var XZ = Mathf.Abs(nextGameState.bombs[i].position.x - nextGameState.iaPosition.x) + Mathf.Abs(nextGameState.bombs[i].position.z - nextGameState.iaPosition.z);
 
             if (XZ < minXZ)
