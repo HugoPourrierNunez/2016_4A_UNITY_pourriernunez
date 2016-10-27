@@ -63,5 +63,5 @@ public class BombInfo
 
 }
 
-public enum BombState { Normal, Explosion, Laser };
+public enum BombState { Normal, Explosion, Boom };
 
