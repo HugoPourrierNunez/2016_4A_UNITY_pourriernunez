@@ -201,6 +201,7 @@ public class CollisionManagerScript : MonoBehaviour
             || nextGameState.iaPosition.z + iaRadius > topWall
             || nextGameState.iaPosition.z - iaRadius < bottomWall)
         {
+            nextGameState.minDistToIA = 0;
             return;
         }
 
@@ -250,6 +251,7 @@ public class CollisionManagerScript : MonoBehaviour
 
         if (nextGameState.minDistToIA <= iaRadius + bombRadius)
         {
+            nextGameState.minDistToIA = 0;
             return;
         }
     }

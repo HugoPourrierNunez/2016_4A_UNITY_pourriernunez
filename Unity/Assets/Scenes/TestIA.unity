@@ -1896,7 +1896,7 @@ MonoBehaviour:
   rendererPlayer: {fileID: 267684849}
   physicSpeed: 4
   physicSpeedForPrediction: 10
-  iaSpeed: 4
+  iaSpeed: 20
   bombSpeed: 2
   bombRadius: 0.5
 --- !u!4 &1149942499

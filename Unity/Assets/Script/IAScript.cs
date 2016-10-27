@@ -98,8 +98,9 @@ public class IAScript : MonoBehaviour {
                 + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.z - nodes[index].gameState.iaPosition.z);
 
             //Quitte si collision
-            /*if (nodes[index].score == float.MaxValue)
-                return;*/
+            if (nodes[index].score == float.MaxValue)
+                return;
+
             nodes[index].cost = depth;
 
             explore(nodes[index], depth + 1, ++index);

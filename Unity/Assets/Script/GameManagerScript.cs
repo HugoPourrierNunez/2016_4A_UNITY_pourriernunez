@@ -97,7 +97,7 @@ public class GameManagerScript : MonoBehaviour {
         //Debug.Log("init gamestate");
         actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
 
-        iaManagerScript.getIaTransform().position = new Vector3(-19, .5f, -19);
+        actualGameState.iaPosition = new Vector3(-19, .5f, -19);
         collisionManagerScript.InitializeBombInfo(actualGameState);
         actualGameState.timeSinceStart = Time.time * 1000;
     }
