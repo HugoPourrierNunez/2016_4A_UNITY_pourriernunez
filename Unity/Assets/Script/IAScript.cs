@@ -6,7 +6,9 @@ public class IAScript : MonoBehaviour
     [SerializeField]
     private int analyseDepth = 3;
 
+    [SerializeField]
     GameManagerScript gameManagerScript;
+
     Node[] nodes;
     Node actualNode;
     int sizeGameState;

@@ -4,23 +4,12 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.Xml.Serialization;
 using System.IO;
+using System;
+using System.Xml;
 
 public class ToolMapScript : EditorWindow
 {
-    [System.Serializable]
-    public class SerializeValue
-    {
-        public SerializeValue()
-        {
-        }
-
-        [XmlAttribute()]
-        public int seed { get; set; }
-
-        [XmlAttribute()]
-        public string nameMap { get; set; }
-    }
-
+   
     private GameState gameState;
     private CollisionManagerScript collisionManagerScript;
     private GameManagerScript gameManager;
@@ -29,11 +18,11 @@ public class ToolMapScript : EditorWindow
     private float sizePlaneX;
     private float sizePlaneY;
     private string nameMap = "";
+    private float sizeArene;
     private string strSizeArene = "";
     private int nbBombs;
     private int seed;
     private BombInfo[] bombs;
-    private TriangularMatrixScript<float> bombsDistance;
 
     public float x0 { get; set; }
     public float z0 { get; set; }
@@ -74,11 +63,8 @@ public class ToolMapScript : EditorWindow
         strSizeArene = GUILayout.TextField(strSizeArene, widthTextField);
         GUILayout.EndHorizontal();
 
-        //sizePlaneX = float.Parse(strSizeArene);
-        sizePlaneX = 20f;// sizePlaneX / 2f;
-
-        //sizePlaneY = float.Parse(strSizeArene);
-        sizePlaneY = 20f;// sizePlaneY / 2f;
+        sizePlaneX = 20f;// (float)(Convert.ToInt32(strSizeArene) / 2);
+        sizePlaneY = 20f;// (float)(Convert.ToInt32(strSizeArene) / 2);
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("Nom de la map :", EditorStyles.label);
@@ -89,6 +75,7 @@ public class ToolMapScript : EditorWindow
         if (GUILayout.Button("Ajouter", widthButton))
         {
             InitializeGameState();
+            /*
             Debug.Log("Direction IA : " + gameState.iaDirection);
             Debug.Log("Position IA : " + gameState.iaPosition);
             Debug.Log("minDistBombTo IA : " + gameState.minDistToIA);
@@ -107,20 +94,19 @@ public class ToolMapScript : EditorWindow
             Debug.Log("BOMBES DIR 4 IA : " + gameState.bombs[3].direction);
             Debug.Log("BOMBES DIR 5 IA : " + gameState.bombs[4].direction);
             Debug.Log("BOMBES DIR 6 IA : " + gameState.bombs[5].direction);
-            Debug.Log("BOMBES DIR 7 IA : " + gameState.bombs[6].direction);
+            Debug.Log("BOMBES DIR 7 IA : " + gameState.bombs[6].direction);*/
         }
         GUILayout.EndHorizontal();
     }
 
     public void InitializeGameState()
     {
-        if(seed == 0)
-        {
-            seed = (int)UnityEngine.Random.Range(1f, 1000f);
-            UnityEngine.Random.InitState(seed);
-        }
         
-        gameState.bombs = InitializeBombInfo();
+        seed = (int)UnityEngine.Random.Range(1f, 1000f);
+        UnityEngine.Random.InitState(seed);
+        
+        
+        InitializeBombInfo();
         gameState.iaPosition = new Vector3(-19, .5f, -19);
         gameState.timeSinceStart = Time.time * 1000;
 
@@ -136,51 +122,78 @@ public class ToolMapScript : EditorWindow
     {
         //On crée une instance de XmlSerializer dans lequel on lui spécifie le type
         //de l'objet à sérialiser. On utiliser l'opérateur typeof pour cela.
+        var emptyNs = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
         XmlSerializer serializer = new XmlSerializer(typeof(SerializeValue));
 
         //Création d'un Stream Writer qui permet d'écrire dans un fichier. On lui spécifie le chemin
         //et si le flux devrait mettre le contenu à la suite de notre document (true) ou s'il devrait
         //l'écraser (false).
-        StreamWriter ecrivain = new StreamWriter("Test.xml", true);
-
+        XmlWriterSettings settingsWriter = new XmlWriterSettings();
+        settingsWriter.OmitXmlDeclaration = true;
+        StreamWriter seedStream = new StreamWriter("SeedEnable.xml", true);
+        var writer = XmlWriter.Create(seedStream, settingsWriter);
         mySerializeValue = new SerializeValue();
         mySerializeValue.nameMap = nameMap;
         mySerializeValue.seed = this.seed;
 
         //On sérialise en spécifiant le flux d'écriture et l'objet à sérialiser.
-        serializer.Serialize(ecrivain, mySerializeValue);
-        
-        ecrivain.Close();
+        serializer.Serialize(writer, mySerializeValue, emptyNs);
+
+        seedStream.Close();
     }
+   
 
-    public BombInfo[] InitializeBombInfo()
+    public void InitializeBombInfo()
     {
-        //Debug.Log("init bomb info");
-        nbBombs = bombManagers.Length;
-        
-        bombsDistance = new TriangularMatrixScript<float>(nbBombs, nbBombs);
-        initializeBomb();
-        for (var i = 0; i < nbBombs; i++)
-        {
-            bombs[i] = new BombInfo();
-            bombs[i].position.x = bombManagers[i].x0;
-            bombs[i].position.z = bombManagers[i].z0;
-            bombs[i].direction.x = bombManagers[i].dx;
-            bombs[i].direction.y = bombManagers[i].dz;
-            bombs[i].delay = -1;
-            bombs[i].state = BombState.Normal;
-        }
+        nbBombs = gameState.bombs.Length;
+        int random;
 
         for (var i = 0; i < nbBombs; i++)
         {
-            for (var j = i + 1; j < nbBombs; j++)
+            gameState.bombs[i].position.x = UnityEngine.Random.Range(-sizePlaneX, sizePlaneX); ;
+            gameState.bombs[i].position.z = UnityEngine.Random.Range(-sizePlaneY, sizePlaneY);
+
+            random = UnityEngine.Random.Range(1, 9);
+            var direction = new Vector3(0.0f, 0.0f, 0.0f);
+            switch (random)
             {
-                bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - bombs[j].position.x), 2)
-                                        + Mathf.Pow((bombs[i].position.z - bombs[j].position.z), 2)));
+                case 1:
+                    direction.x = 0.0f;
+                    direction.z = 1.0f;
+                    break;
+                case 2:
+                    direction.x = 0.71f;
+                    direction.z = 0.71f;
+                    break;
+                case 3:
+                    direction.x = 1.0f;
+                    direction.z = 0.0f;
+                    break;
+                case 4:
+                    direction.x = 0.71f;
+                    direction.z = -0.71f;
+                    break;
+                case 5:
+                    direction.x = 0.0f;
+                    direction.z = -1.0f;
+                    break;
+                case 6:
+                    direction.x = -0.71f;
+                    direction.z = -0.71f;
+                    break;
+                case 7:
+                    direction.x = -1.0f;
+                    direction.z = 0.0f;
+                    break;
+                case 8:
+                    direction.x = 0.71f;
+                    direction.z = -0.71f;
+                    break;
             }
+            gameState.bombs[i].direction = direction;
+            gameState.bombs[i].delay = -1;
+            gameState.bombs[i].state = BombState.Normal;
         }
-
-        return bombs;
     }
 
     public BombInfo NearestBombFromIA(BombInfo[] bombsFromGameState)
@@ -197,52 +210,18 @@ public class ToolMapScript : EditorWindow
 
         return result;
     }
+}
 
-    public void initializeBomb()
+[Serializable()]
+public class SerializeValue
+{
+    public SerializeValue()
     {
-        for(var i = 0; i < bombManagers.Length; i++)
-        {
-            this.bombManagers[i] = new BombManagerScript();
-            this.bombManagers[i].x0 = Random.Range(-sizePlaneX, sizePlaneX);
-            this.bombManagers[i].z0 = Random.Range(-sizePlaneY, sizePlaneY);
-
-            int random = Random.Range(1, 9);
-
-            switch (random)
-            {
-                case 1:
-                    this.bombManagers[i].dx = 0.0f;
-                    this.bombManagers[i].dz = 1.0f;
-                    break;
-                case 2:
-                    this.bombManagers[i].dx = 0.71f;
-                    this.bombManagers[i].dz = 0.71f;
-                    break;
-                case 3:
-                    this.bombManagers[i].dx = 1.0f;
-                    this.bombManagers[i].dz = 0.0f;
-                    break;
-                case 4:
-                    this.bombManagers[i].dx = 0.71f;
-                    this.bombManagers[i].dz = -0.71f;
-                    break;
-                case 5:
-                    this.bombManagers[i].dx = 0.0f;
-                    this.bombManagers[i].dz = -1.0f;
-                    break;
-                case 6:
-                    this.bombManagers[i].dx = -0.71f;
-                    this.bombManagers[i].dz = -0.71f;
-                    break;
-                case 7:
-                    this.bombManagers[i].dx = -1.0f;
-                    this.bombManagers[i].dz = 0.0f;
-                    break;
-                case 8:
-                    this.bombManagers[i].dx = 0.71f;
-                    this.bombManagers[i].dz = -0.71f;
-                    break;
-            }
-        }
     }
+
+    [XmlElement("Seed")]
+    public int seed { get; set; }
+
+    [XmlElement("NameMap")]
+    public string nameMap { get; set; }
 }
