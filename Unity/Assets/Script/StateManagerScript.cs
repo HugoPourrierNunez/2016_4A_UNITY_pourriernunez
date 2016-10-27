@@ -129,9 +129,11 @@ public class StateManagerScript : MonoBehaviour {
         // Side effect of the inGame GameState change (update the view)
         inGameGameStateStream.Subscribe(_ => {
             gameManagerScript.ActualGameState = GetNextState(gameManagerScript.ActualGameState);
-            GameState gs = gameManagerScript.ActualGameState;
-            gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
-            gameManagerScript.ActualGameState = gs;
+            //GameState gs = gameManagerScript.ActualGameState;
+            //gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
+            //gameManagerScript.ActualGameState = gs;
+
+            gameManagerScript.ActualGameState.iaDirection =  gameManagerScript.IAScript.getNextDirectionIA();
             ApplyGameState();
             });
 
@@ -147,27 +149,9 @@ public class StateManagerScript : MonoBehaviour {
     private void ApplyGameState()
     {
         //A completer
-        gameManagerScript.CollisionManagerScript.applyStateToBombs(gameManagerScript.ActualGameState);
-        gameManagerScript.IaManagerScript.ApplyStateToIa(gameManagerScript.ActualGameState);
+        gameManagerScript.CollisionManagerScript.ApplyState(gameManagerScript.ActualGameState);
+
+
+        //gameManagerScript.IaManagerScript.ApplyStateToIa(gameManagerScript.ActualGameState);
     }
 }
-
-// Simple inGame GameState
-public struct GameState
-{
-    public Vector3 iaPosition;
-    public Vector2 iaDirection;
-    public BombInfo[] bombs;
-    public float timeSinceStart;
-    public float minDistToIA;
-}
-
-public struct BombInfo
-{
-    public Vector3 position;
-    public float delay;
-    public Vector2 direction;
-    public BombState state;
-}
-
-public enum BombState { Normal, Explosion, Laser};

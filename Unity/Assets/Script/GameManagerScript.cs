@@ -21,6 +21,9 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     PlayerManagerScript playerManagerScript;
 
+    [SerializeField]
+    IAScript iAScript;
+
     public CollisionManagerScript CollisionManagerScript
     {
         get
@@ -66,6 +69,15 @@ public class GameManagerScript : MonoBehaviour {
         }
     }
 
+    public IAScript IAScript
+    {
+        get
+        {
+            return iAScript;
+        }
+        
+    }
+
     void Start()
     {
         mapManagerScript.setGameManagerScript(this);
@@ -74,16 +86,19 @@ public class GameManagerScript : MonoBehaviour {
         iaManagerScript.setGameManagerScript(this);
         playerManagerScript.setGameManagerScript(this);
 
+        if(iAScript!=null)
+            iAScript.setGameManagerScript(this);
+
         initializeGameState();
     }
 
     public void initializeGameState()
     {
         //Debug.Log("init gamestate");
-        actualGameState = new GameState();
+        actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
 
         iaManagerScript.getIaTransform().position = new Vector3(-19, .5f, -19);
-        actualGameState.bombs = collisionManagerScript.InitializeBombInfo();
+        collisionManagerScript.InitializeBombInfo(actualGameState);
         actualGameState.timeSinceStart = Time.time * 1000;
     }
 }

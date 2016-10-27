@@ -4,7 +4,7 @@ using System.Collections;
 public class HeuristicScript : MonoBehaviour
 {
 
-    public float GetShortHeuristic(GameState state, Vector2 goal)
+    public static float GetShortHeuristic(GameState state, Vector3 goal)
     {
         float minDistance = 1000000;
         var length = state.bombs.Length;
@@ -17,7 +17,7 @@ public class HeuristicScript : MonoBehaviour
                 minDistance = dist;
             }
         }
-        return 1 / minDistance + Mathf.Pow(goal.x - state.iaPosition.x, 2) + Mathf.Pow(goal.y - state.iaPosition.z, 2);
+        return 1 / minDistance + Mathf.Pow(goal.x - state.iaPosition.x, 2) + Mathf.Pow(goal.z - state.iaPosition.z, 2);
     }
 
     public float GetLongHeuristic(GameState state, Vector2 goal)

@@ -5,6 +5,13 @@ using System.Collections.Generic;
 
 public class CollisionManagerScript : MonoBehaviour
 {
+
+    float bottomWall;
+    float topWall;
+    float rightWall;
+    float leftWall;
+    float sizeDivise;
+
     GameManagerScript gameManagerScript;
 
     public void setGameManagerScript(GameManagerScript gmScript)
@@ -37,42 +44,57 @@ public class CollisionManagerScript : MonoBehaviour
     [SerializeField]
     private Renderer rendererPlayer;
 
+    [SerializeField]
+    float physicSpeed=4;
+
+    [SerializeField]
+    float physicSpeedForPrediction = 10;
+
     int nbBombs;
+
+    [SerializeField]
     float bombRadius = 0.5f;
-    BombInfo[] bombs;
+
     float minDistToIA;
 
     TriangularMatrixScript<float> bombsDistance;
 
-    public BombInfo[] InitializeBombInfo()
+
+    void Start()
+    {
+        bottomWall = -planeRenderer.bounds.size.z / 2;
+        topWall = planeRenderer.bounds.size.z / 2;
+        rightWall = planeRenderer.bounds.size.x / 2;
+        leftWall = -planeRenderer.bounds.size.x / 2;
+        sizeDivise = rendererPlayer.bounds.size.x / 2;
+    }
+
+    public void InitializeBombInfo(GameState gs)
     {
         //Debug.Log("init bomb info");
         nbBombs = bombManagers.Length;
-
-        bombs = new BombInfo[nbBombs];
+        
         bombsDistance = new TriangularMatrixScript<float>(nbBombs, nbBombs);
 
         for (var i = 0; i < nbBombs; i++)
         {
             bombManagers[i].initializeBomb(gameManagerScript.MapManagerScript.getPlaneTransform());
-            bombs[i].position.x = bombManagers[i].x0;
-            bombs[i].position.z = bombManagers[i].z0;
-            bombs[i].direction.x = bombManagers[i].dx;
-            bombs[i].direction.y = bombManagers[i].dz;
-            bombs[i].delay = -1;
-            bombs[i].state = BombState.Normal;
+            gs.bombs[i].position.x = bombManagers[i].x0;
+            gs.bombs[i].position.z = bombManagers[i].z0;
+            gs.bombs[i].direction.x = bombManagers[i].dx;
+            gs.bombs[i].direction.y = bombManagers[i].dz;
+            gs.bombs[i].delay = -1;
+            gs.bombs[i].state = BombState.Normal;
         }
 
         for (var i = 0; i < nbBombs; i++)
         {
             for (var j = i + 1; j < nbBombs; j++)
             {
-                bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((bombs[i].position.x - bombs[j].position.x), 2)
-                                        + Mathf.Pow((bombs[i].position.z - bombs[j].position.z), 2)));
+                bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((gs.bombs[i].position.x - gs.bombs[j].position.x), 2)
+                                        + Mathf.Pow((gs.bombs[i].position.z - gs.bombs[j].position.z), 2)));
             }
         }
-
-        return bombs;
     }
 
     public float GetGameStateWeight(GameState gameState)
@@ -82,27 +104,21 @@ public class CollisionManagerScript : MonoBehaviour
 
     public GameState HandleBombCollision(GameState gameState)
     {
-        var nbBombs = bombs.Length;
-
-        var bottomWall = -planeRenderer.bounds.size.z / 2;
-        var topWall = planeRenderer.bounds.size.z / 2;
-        var rightWall = planeRenderer.bounds.size.x / 2;
-        var leftWall = -planeRenderer.bounds.size.x / 2;
-        var sizeDivise = rendererPlayer.bounds.size.x / 2;
+        var nbBombs = gameState.bombs.Length;
 
         gameState.minDistToIA = 100.0f;
 
-        gameState.iaPosition.x += 4 * Time.deltaTime * gameState.iaDirection.x;
-        gameState.iaPosition.z += 4 * Time.deltaTime * gameState.iaDirection.y;
+        gameState.iaPosition.x += physicSpeed * Time.deltaTime * gameState.iaDirection.x;
+        gameState.iaPosition.z += physicSpeed * Time.deltaTime * gameState.iaDirection.y;
 
         // MAJ delay bombes 
         for(var y = 0;  y < nbBombs; y++)
         {
-            this.bombs[y].delay -= (Time.time*1000) - gameState.timeSinceStart;
+            gameState.bombs[y].delay -= (Time.time*1000) - gameState.timeSinceStart;
 
-            if(this.bombs[y].delay <= 0)
+            if(gameState.bombs[y].delay <= 0)
             {
-                this.bombs[y].state = BombState.Normal;
+                gameState.bombs[y].state = BombState.Normal;
             }
         }
 
@@ -140,7 +156,7 @@ public class CollisionManagerScript : MonoBehaviour
 
         for (var i = 0; i < nbBombs; i++)
         {
-            for (var j = i + 1; j < nbBombs; j++)
+            /*for (var j = i + 1; j < nbBombs; j++)
             {
                 bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((gameState.bombs[i].position.x - gameState.bombs[j].position.x), 2)
                                         + Mathf.Pow((gameState.bombs[i].position.z - gameState.bombs[j].position.z), 2)));
@@ -149,7 +165,7 @@ public class CollisionManagerScript : MonoBehaviour
                 {
                     BombCollideWithBomb(i, j, gameState.bombs);
                 }
-            }
+            }*/
 
             if (gameState.bombs[i].position.x < bottomWall + bombRadius)
             {
@@ -174,13 +190,92 @@ public class CollisionManagerScript : MonoBehaviour
         return gameState;
     }
 
-    public void applyStateToBombs(GameState gameState)
+    public void FillNextGameState(GameState actualGameState, GameState nextGameState)
+    {
+        //actualGameState.Copy(nextGameState);
+
+        var nbBombs = nextGameState.bombs.Length;
+
+        nextGameState.minDistToIA = float.MaxValue;
+
+        /*nextGameState.iaPosition.x += 4 * Time.deltaTime * nextGameState.iaDirection.x;
+        nextGameState.iaPosition.z += 4 * Time.deltaTime * nextGameState.iaDirection.y;*/
+
+        // MAJ delay bombes 
+        for (var i = 0; i < nbBombs; i++)
+        {
+            nextGameState.bombs[i].state = actualGameState.bombs[i].state;
+            nextGameState.bombs[i].delay = actualGameState.bombs[i].delay - ((Time.time * 1000) - nextGameState.timeSinceStart);
+
+            if (nextGameState.bombs[i].delay <= 0)
+            {
+                nextGameState.bombs[i].state = BombState.Normal;
+            }
+
+            nextGameState.bombs[i].direction = actualGameState.bombs[i].direction;
+
+            nextGameState.bombs[i].position.x = actualGameState.bombs[i].position.x +(physicSpeed * Time.deltaTime * nextGameState.bombs[i].direction.x);
+            nextGameState.bombs[i].position.z = actualGameState.bombs[i].position.z + (physicSpeed * Time.deltaTime * nextGameState.bombs[i].direction.y);
+
+            nextGameState.iaPosition.x = actualGameState.iaPosition.x;
+            nextGameState.iaPosition.z = actualGameState.iaPosition.z;
+            nextGameState.minDistToIA = actualGameState.minDistToIA;
+
+            var distance = Mathf.Sqrt(Mathf.Pow((nextGameState.bombs[i].position.x - nextGameState.iaPosition.x), 2)
+                                        + Mathf.Pow((nextGameState.bombs[i].position.z - nextGameState.iaPosition.z), 2));
+
+            if (distance < nextGameState.minDistToIA)
+            {
+                nextGameState.minDistToIA = distance;
+            }
+
+            if (nextGameState.bombs[i].position.x < bottomWall + bombRadius)
+            {
+                BombCollideWithWall(i, Walls.bottom, nextGameState.bombs);
+            }
+            else if (nextGameState.bombs[i].position.x > topWall - bombRadius)
+            {
+                BombCollideWithWall(i, Walls.top, nextGameState.bombs);
+            }
+            else if (nextGameState.bombs[i].position.z > rightWall - bombRadius)
+            {
+                BombCollideWithWall(i, Walls.right, nextGameState.bombs);
+            }
+            else if (nextGameState.bombs[i].position.z < leftWall + bombRadius)
+            {
+                BombCollideWithWall(i, Walls.left, nextGameState.bombs);
+            }
+        }
+
+        /*for(var i=0; i<nbBombs;i++)
+        {
+            for (var j = i + 1; j < nbBombs; j++)
+            {
+                var distance = Mathf.Sqrt(Mathf.Pow((nextGameState.bombs[i].position.x - nextGameState.bombs[j].position.x), 2)
+                                        + Mathf.Pow((nextGameState.bombs[i].position.z - nextGameState.bombs[j].position.z), 2));
+
+                if (distance < bombRadius * 2)
+                {
+                    BombCollideWithBomb(i, j, nextGameState.bombs);
+                }
+            }
+        }*/
+        
+        nextGameState.score = 1 / nextGameState.minDistToIA 
+            + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.x - nextGameState.iaPosition.x) 
+            + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.z - nextGameState.iaPosition.z);
+        //Debug.Log("Score = " + nextGameState.score);
+    }
+
+    public void ApplyState(GameState gameState)
     {
         var length = bombManagers.Length;
         for(var i = 0; i<length;i++)
         {
             bombManagers[i].ApplyBombInfo(gameState.bombs[i]);
         }
+
+        transformPlayer.position += Time.deltaTime * physicSpeed * gameState.iaDirection;
     }
 
     private void BombCollideWithBomb(int i, int j, BombInfo[] bombs)
@@ -201,19 +296,15 @@ public class CollisionManagerScript : MonoBehaviour
         {
             case Walls.bottom:
                 bombs[i].direction.x = Mathf.Abs(bombs[i].direction.x);
-                bombManagers[i].dx = bombs[i].direction.x;
                 break;
             case Walls.top:
                 bombs[i].direction.x = -Mathf.Abs(bombs[i].direction.x);
-                bombManagers[i].dx = bombs[i].direction.x;
                 break;
             case Walls.right:
                 bombs[i].direction.y = -Mathf.Abs(bombs[i].direction.y);
-                bombManagers[i].dz = bombs[i].direction.y;
                 break;
             case Walls.left:
                 bombs[i].direction.y = Mathf.Abs(bombs[i].direction.y);
-                bombManagers[i].dz = bombs[i].direction.y;
                 break;
         }
     }
