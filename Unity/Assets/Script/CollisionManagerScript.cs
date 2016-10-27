@@ -49,6 +49,12 @@ public class CollisionManagerScript : MonoBehaviour
     [SerializeField]
     float physicSpeedForPrediction = 10;
 
+    [SerializeField]
+    float iaSpeed;
+
+    [SerializeField]
+    float bombSpeed;
+
     int nbBombs;
 
     [SerializeField]
@@ -111,8 +117,8 @@ public class CollisionManagerScript : MonoBehaviour
 
         gameState.minDistToIA = 100.0f;
 
-        gameState.iaPosition.x += physicSpeed * Time.deltaTime * gameState.iaDirection.x;
-        gameState.iaPosition.z += physicSpeed * Time.deltaTime * gameState.iaDirection.z;
+        gameState.iaPosition.x += iaSpeed * Time.deltaTime * gameState.iaDirection.x;
+        gameState.iaPosition.z += iaSpeed * Time.deltaTime * gameState.iaDirection.z;
 
         Transform goalTransform = gameManagerScript.MapManagerScript.getGoalTransform();
 
@@ -134,8 +140,8 @@ public class CollisionManagerScript : MonoBehaviour
                 gameState.bombs[i].state = BombState.Normal;
             }
 
-            gameState.bombs[i].position.x += 4 * Time.deltaTime * gameState.bombs[i].direction.x;
-            gameState.bombs[i].position.z += 4 * Time.deltaTime * gameState.bombs[i].direction.z;
+            gameState.bombs[i].position.x += bombSpeed * Time.deltaTime * gameState.bombs[i].direction.x;
+            gameState.bombs[i].position.z += bombSpeed * Time.deltaTime * gameState.bombs[i].direction.z;
 
             var XZ = Mathf.Abs(gameState.bombs[i].position.x - gameState.iaPosition.x) + Mathf.Abs(gameState.bombs[i].position.z - gameState.iaPosition.z);
 
@@ -188,7 +194,7 @@ public class CollisionManagerScript : MonoBehaviour
 
         nextGameState.minDistToIA = float.MaxValue;
 
-        nextGameState.iaPosition = actualGameState.iaPosition + direction * Time.deltaTime * physicSpeed;
+        nextGameState.iaPosition = actualGameState.iaPosition + direction * Time.deltaTime * iaSpeed;
 
         if(nextGameState.iaPosition.x + iaRadius > rightWall 
             || nextGameState.iaPosition.x - iaRadius < leftWall
@@ -210,8 +216,8 @@ public class CollisionManagerScript : MonoBehaviour
 
             nextGameState.bombs[i].direction = actualGameState.bombs[i].direction;
 
-            nextGameState.bombs[i].position.x = actualGameState.bombs[i].position.x +(physicSpeed * Time.deltaTime * nextGameState.bombs[i].direction.x);
-            nextGameState.bombs[i].position.z = actualGameState.bombs[i].position.z + (physicSpeed * Time.deltaTime * nextGameState.bombs[i].direction.z);
+            nextGameState.bombs[i].position.x = actualGameState.bombs[i].position.x +(bombSpeed * Time.deltaTime * nextGameState.bombs[i].direction.x);
+            nextGameState.bombs[i].position.z = actualGameState.bombs[i].position.z + (bombSpeed * Time.deltaTime * nextGameState.bombs[i].direction.z);
 
             nextGameState.iaPosition.x = actualGameState.iaPosition.x;
             nextGameState.iaPosition.z = actualGameState.iaPosition.z;
@@ -250,10 +256,6 @@ public class CollisionManagerScript : MonoBehaviour
         {
             return;
         }
-
-        nextGameState.score = 1 / nextGameState.minDistToIA 
-            + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.x - nextGameState.iaPosition.x) 
-            + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.z - nextGameState.iaPosition.z);
     }
 
     public void ApplyState(GameState gameState)

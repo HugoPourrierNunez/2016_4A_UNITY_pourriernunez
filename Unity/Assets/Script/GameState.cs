@@ -8,8 +8,6 @@ public class GameState  {
     public BombInfo[] bombs;
     public float timeSinceStart;
     public float minDistToIA;
-    public float score;
-    public Vector3 originalDirection;
 
     public GameState(int nbBombs)
     {
@@ -17,9 +15,7 @@ public class GameState  {
         iaDirection = Vector3.zero;
         timeSinceStart = 0;
         minDistToIA = 0;
-        score = -1;
         bombs = new BombInfo[nbBombs];
-        originalDirection = Vector3.zero;
 
         for(var i=0;i< nbBombs; i++)
         {
@@ -33,7 +29,6 @@ public class GameState  {
         gs.iaPosition = iaPosition;
         gs.minDistToIA = minDistToIA;
         gs.timeSinceStart = timeSinceStart;
-        gs.score = score;
         var length = bombs.Length;
         for (var i = 0; i < length; i++)
         {

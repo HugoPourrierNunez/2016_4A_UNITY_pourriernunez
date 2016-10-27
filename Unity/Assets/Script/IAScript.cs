@@ -8,7 +8,9 @@ public class IAScript : MonoBehaviour {
 
     GameManagerScript gameManagerScript;
 
-    GameState[] gameStates;
+    Node[] nodes;
+
+    Node actualNode;
 
     private int sizeGameState;
 
@@ -38,14 +40,14 @@ public class IAScript : MonoBehaviour {
 
         for(var i = 0; i<sizeGameState;i++)
         {
-            gameStates[i].score = float.MaxValue;
+            nodes[i].score = float.MaxValue;
         }
 
-        
-        for(var i=0;i<8;i++)
-        {
-            explore(gameManagerScript.ActualGameState, 1, i);
-        }
+        actualNode.cost = 0;
+        actualNode.gameState = gameManagerScript.ActualGameState;
+
+        explore(actualNode, 1, 0);
+
         /*for (var i = 0; i < sizeGameState; i++)
         {
             if(gameStates[i].score != float.MaxValue)Debug.Log(gameStates[i].score);
@@ -59,19 +61,19 @@ public class IAScript : MonoBehaviour {
         var minScore = float.MaxValue;
         var minVector = Vector3.zero;
 
-        for(var i=(int) Mathf.Pow(8,analyseDepth-1); i<sizeGameState;i++)
+        for(var i=0; i<sizeGameState;i++)
         {
-            if(gameStates[i].score<minScore)
+            if(nodes[i].score<minScore)
             {
-                minScore = gameStates[i].score;
-                minVector = gameStates[i].originalDirection;
+                minScore = nodes[i].score;
+                minVector = nodes[i].firstDirection;
             }
         }
         //Debug.Log(minScore);
         return minVector;
     }
 
-    public void explore(GameState gs, int depth, int index)
+    public void explore(Node node, int depth, int index)
     {
         if (depth > analyseDepth)
             return;
@@ -80,23 +82,27 @@ public class IAScript : MonoBehaviour {
         {
             if (depth == 1)
             {
-                gameStates[index].originalDirection = Direction[i];
+                nodes[index].firstDirection = Direction[i];
             }
             else
             {
-                gameStates[index].originalDirection = gs.originalDirection;
+                nodes[index].firstDirection = node.firstDirection;
             }
 
-            gameManagerScript.CollisionManagerScript.FillNextGameState(gs, gameStates[index], Direction[i]);
+            nodes[index].isClosed = false;
+
+            gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i]);
+
+            nodes[index].score = 1 / nodes[index].gameState.minDistToIA
+                + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.x - nodes[index].gameState.iaPosition.x)
+                + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.z - nodes[index].gameState.iaPosition.z);
 
             //Quitte si collision
-            if (gameStates[index].score == float.MaxValue)
-                return;
+            /*if (nodes[index].score == float.MaxValue)
+                return;*/
+            nodes[index].cost = depth;
 
-            var nb = index - (int)Mathf.Pow(8, depth - 1) + 1;
-
-            explore(gameStates[index], depth + 1, (int)Mathf.Pow(8, depth-1) + i - 1);
-            //explore(gameStates[index],depth+1, (int)Mathf.Pow(8, depth) + 7 * nb + i);
+            explore(nodes[index], depth + 1, ++index);
         }
     }
 
@@ -105,10 +111,11 @@ public class IAScript : MonoBehaviour {
     {
         sizeGameState = (int)Mathf.Pow(8, analyseDepth);
         var nbBombs = gameManagerScript.CollisionManagerScript.getBombManagers().Length;
-        gameStates = new GameState[sizeGameState];
+        nodes = new Node[sizeGameState];
         for(var i=0;i<sizeGameState;i++)
         {
-            gameStates[i] = new GameState(nbBombs);
+            nodes[i] = new Node(nbBombs);
         }
+        actualNode = new Node(nbBombs);
     }
 }
