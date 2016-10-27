@@ -20,11 +20,13 @@ Platform assembly: C:\Users\maxim\Desktop\ESGI\4A\DJV Avancé\2016_4A_UNITY_pour
 Loading C:\Users\maxim\Desktop\ESGI\4A\DJV Avancé\2016_4A_UNITY_pourriernunez\Unity\FunStuffWithAI_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\maxim\Desktop\ESGI\4A\DJV Avancé\2016_4A_UNITY_pourriernunez\Unity\FunStuffWithAI_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\maxim\Desktop\ESGI\4A\DJV Avancé\2016_4A_UNITY_pourriernunez\Unity\FunStuffWithAI_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.105 seconds
+- Completed reload, in  0.069 seconds
 Platform assembly: C:\Users\maxim\Desktop\ESGI\4A\DJV Avancé\2016_4A_UNITY_pourriernunez\Unity\FunStuffWithAI_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\maxim\Desktop\ESGI\4A\DJV Avancé\2016_4A_UNITY_pourriernunez\Unity\FunStuffWithAI_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.310486 ms
+UnloadTime: 0.780040 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 3124 -> priority: 1 

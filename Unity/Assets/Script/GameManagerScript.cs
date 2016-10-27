@@ -21,6 +21,30 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     IAScript iAScript;
 
+    void Start()
+    {
+        mapManagerScript.SetGameManagerScript(this);
+        collisionManagerScript.SetGameManagerScript(this);
+        stateManagerScript.SetGameManagerScript(this);
+        playerManagerScript.SetGameManagerScript(this);
+
+        if (iAScript != null)
+        {
+            iAScript.SetGameManagerScript(this);
+        }
+
+        InitializeGameState();
+    }
+
+    public void InitializeGameState()
+    {
+        actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
+
+        actualGameState.iaPosition = new Vector3(-19, .5f, -19);
+        collisionManagerScript.InitializeBombInfo(actualGameState);
+        actualGameState.timeSinceStart = Time.time * 1000;
+    }
+
     public CollisionManagerScript CollisionManagerScript
     {
         get
@@ -65,28 +89,5 @@ public class GameManagerScript : MonoBehaviour {
             return iAScript;
         }
         
-    }
-
-    void Start()
-    {
-        mapManagerScript.setGameManagerScript(this);
-        collisionManagerScript.setGameManagerScript(this);
-        stateManagerScript.setGameManagerScript(this);
-        playerManagerScript.setGameManagerScript(this);
-
-        if(iAScript!=null)
-            iAScript.setGameManagerScript(this);
-
-        initializeGameState();
-    }
-
-    public void initializeGameState()
-    {
-        //Debug.Log("init gamestate");
-        actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
-
-        actualGameState.iaPosition = new Vector3(-19, .5f, -19);
-        collisionManagerScript.InitializeBombInfo(actualGameState);
-        actualGameState.timeSinceStart = Time.time * 1000;
     }
 }

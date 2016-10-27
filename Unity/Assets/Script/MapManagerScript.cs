@@ -4,12 +4,10 @@ using System.Collections.Generic;
 
 public class MapManagerScript : MonoBehaviour
 {
+    GameManagerScript gameManagerScript;
 
     [SerializeField]
     Transform plane;
-
-    [SerializeField]
-    Transform entry;
 
     [SerializeField]
     Transform goal;
@@ -17,19 +15,17 @@ public class MapManagerScript : MonoBehaviour
     [SerializeField]
     ObstacleScript[] obstacles;
 
-    GameManagerScript gameManagerScript;
-
-    public void setGameManagerScript(GameManagerScript gmScript)
+    public void SetGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
     }
 
-    public Transform getGoalTransform()
+    public Transform GetGoalTransform()
     {
         return goal;
     }
 
-    public Transform getPlaneTransform()
+    public Transform GetPlaneTransform()
     {
         return plane;
     }

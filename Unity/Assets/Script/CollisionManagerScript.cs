@@ -13,7 +13,7 @@ public class CollisionManagerScript : MonoBehaviour
 
     GameManagerScript gameManagerScript;
 
-    public void setGameManagerScript(GameManagerScript gmScript)
+    public void SetGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
     }
@@ -59,48 +59,69 @@ public class CollisionManagerScript : MonoBehaviour
 
     [SerializeField]
     float bombRadius = 0.5f;
-
     float iaRadius;
     float minDistToIA;
 
-    TriangularMatrixScript<float> bombsDistance;
-
-
-    void Start()
+    void OnEnable()
     {
-        bottomWall = -planeRenderer.bounds.size.z / 2;
+        bottomWall = - planeRenderer.bounds.size.z / 2;
         topWall = planeRenderer.bounds.size.z / 2;
         rightWall = planeRenderer.bounds.size.x / 2;
-        leftWall = -planeRenderer.bounds.size.x / 2;
+        leftWall = - planeRenderer.bounds.size.x / 2;
         iaRadius = rendererPlayer.bounds.size.x / 2;
     }
 
-    public void InitializeBombInfo(GameState gs)
+    public void InitializeBombInfo(GameState gameState)
     {
-        //Debug.Log("init bomb info");
-        nbBombs = bombManagers.Length;
-        
-        bombsDistance = new TriangularMatrixScript<float>(nbBombs, nbBombs);
+        nbBombs = gameState.bombs.Length;
+        int random;
 
         for (var i = 0; i < nbBombs; i++)
         {
-            bombManagers[i].initializeBomb(gameManagerScript.MapManagerScript.getPlaneTransform());
-            gs.bombs[i].position.x = bombManagers[i].x0;
-            gs.bombs[i].position.z = bombManagers[i].z0;
-            gs.bombs[i].direction.x = bombManagers[i].dx;
-            gs.bombs[i].direction.z = bombManagers[i].dz;
-            gs.bombs[i].delay = -1;
-            gs.bombs[i].state = BombState.Normal;
-        }
+            gameState.bombs[i].position.x = UnityEngine.Random.Range(planeRenderer.transform.position.x - planeRenderer.transform.localScale.x * 5 + bombManagers[i].transform.localScale.x / 2, planeRenderer.transform.position.x + planeRenderer.transform.localScale.x * 5 - bombManagers[i].transform.localScale.x / 2); ;
+            gameState.bombs[i].position.z = UnityEngine.Random.Range(planeRenderer.transform.position.z - planeRenderer.transform.localScale.z * 5 + bombManagers[i].transform.localScale.z / 2, planeRenderer.transform.position.z + planeRenderer.transform.localScale.z * 5 - bombManagers[i].transform.localScale.z / 2);
 
-        /*for (var i = 0; i < nbBombs; i++)
-        {
-            for (var j = i + 1; j < nbBombs; j++)
+            random = UnityEngine.Random.Range(1, 9);
+            var direction = new Vector3(0.0f, 0.0f, 0.0f);
+            switch (random)
             {
-                bombsDistance.Set(i, j, Mathf.Sqrt(Mathf.Pow((gs.bombs[i].position.x - gs.bombs[j].position.x), 2)
-                                        + Mathf.Pow((gs.bombs[i].position.z - gs.bombs[j].position.z), 2)));
+                case 1:
+                    direction.x = 0.0f;
+                    direction.z = 1.0f;
+                    break;
+                case 2:
+                    direction.x = 0.71f;
+                    direction.z = 0.71f;
+                    break;
+                case 3:
+                    direction.x = 1.0f;
+                    direction.z = 0.0f;
+                    break;
+                case 4:
+                    direction.x = 0.71f;
+                    direction.z = -0.71f;
+                    break;
+                case 5:
+                    direction.x = 0.0f;
+                    direction.z = -1.0f;
+                    break;
+                case 6:
+                    direction.x = -0.71f;
+                    direction.z = -0.71f;
+                    break;
+                case 7:
+                    direction.x = -1.0f;
+                    direction.z = 0.0f;
+                    break;
+                case 8:
+                    direction.x = 0.71f;
+                    direction.z = -0.71f;
+                    break;
             }
-        }*/
+            gameState.bombs[i].direction = direction;
+            gameState.bombs[i].delay = -1;
+            gameState.bombs[i].state = BombState.Normal;
+        }
     }
 
     public float GetGameStateWeight(GameState gameState)
@@ -120,7 +141,7 @@ public class CollisionManagerScript : MonoBehaviour
         gameState.iaPosition.x += iaSpeed * Time.deltaTime * gameState.iaDirection.x;
         gameState.iaPosition.z += iaSpeed * Time.deltaTime * gameState.iaDirection.z;
 
-        Transform goalTransform = gameManagerScript.MapManagerScript.getGoalTransform();
+        Transform goalTransform = gameManagerScript.MapManagerScript.GetGoalTransform();
 
         if (transformPlayer.position.x > goalTransform.position.x-goalTransform.localScale.x/2 
             && transformPlayer.position.x < goalTransform.position.x + goalTransform.localScale.x / 2
@@ -267,7 +288,7 @@ public class CollisionManagerScript : MonoBehaviour
         transformPlayer.position = gameState.iaPosition;
     }
 
-    private void BombCollideWithBomb(int i, int j, BombInfo[] bombs)
+    /*private void BombCollideWithBomb(int i, int j, BombInfo[] bombs)
     {
         var tmpDir = bombs[i].direction;
         bombs[i].direction = bombs[j].direction;
@@ -277,7 +298,7 @@ public class CollisionManagerScript : MonoBehaviour
         bombManagers[i].dz = bombs[i].direction.z;
         bombManagers[j].dx = bombs[j].direction.x;
         bombManagers[j].dz = bombs[j].direction.z;
-    }
+    }*/
 
     private void BombCollideWithWall(int i, Walls wall, BombInfo[] bombs)
     {

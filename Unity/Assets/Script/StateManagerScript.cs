@@ -45,7 +45,7 @@ public class StateManagerScript : MonoBehaviour {
 
     GameManagerScript gameManagerScript;
 
-    public void setGameManagerScript(GameManagerScript gmScript)
+    public void SetGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
     }
@@ -114,7 +114,7 @@ public class StateManagerScript : MonoBehaviour {
             EndGameGo.SetActive(_);
             iaIsDead = false;
             endGame.SetValueAndForceNotify(false);
-            gameManagerScript.initializeGameState();
+            gameManagerScript.InitializeGameState();
         });
 
         // internal custom game State Stream
@@ -132,7 +132,7 @@ public class StateManagerScript : MonoBehaviour {
             //gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
             //gameManagerScript.ActualGameState = gs;
 
-            gameManagerScript.ActualGameState.iaDirection =  gameManagerScript.IAScript.getNextDirectionIA();
+            gameManagerScript.ActualGameState.iaDirection =  gameManagerScript.IAScript.GetNextDirectionIA();
             GetNextState(gameManagerScript.ActualGameState);
             ApplyGameState();
             });

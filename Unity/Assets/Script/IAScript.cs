@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IAScript : MonoBehaviour {
-
+public class IAScript : MonoBehaviour
+{
     [SerializeField]
-    int analyseDepth = 3;
+    private int analyseDepth = 3;
 
     GameManagerScript gameManagerScript;
-
     Node[] nodes;
-
     Node actualNode;
-
-    private int sizeGameState;
+    int sizeGameState;
 
 
     public static Vector3[] Direction = new Vector3[8]
@@ -27,18 +24,27 @@ public class IAScript : MonoBehaviour {
         new Vector3(0.71f,0.0f, -0.71f)
     };
 
-    public void setGameManagerScript(GameManagerScript gmScript)
+    void Start()
+    {
+        var nbBombs = gameManagerScript.CollisionManagerScript.getBombManagers().Length;
+        sizeGameState = (int)Mathf.Pow(8, analyseDepth);
+        nodes = new Node[sizeGameState];
+
+        for (var i = 0; i < sizeGameState; i++)
+        {
+            nodes[i] = new Node(nbBombs);
+        }
+        actualNode = new Node(nbBombs);
+    }
+
+    public void SetGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
     }
 
-
-    public Vector3 getNextDirectionIA()
+    public Vector3 GetNextDirectionIA()
     {
-        //tree.val = -1;
-        //generateTree(tree,gameManagerScript.ActualGameState, analyseDepth);
-
-        for(var i = 0; i<sizeGameState;i++)
+        for(var i = 0; i < sizeGameState; i++)
         {
             nodes[i].score = float.MaxValue;
         }
@@ -46,39 +52,34 @@ public class IAScript : MonoBehaviour {
         actualNode.cost = 0;
         actualNode.gameState = gameManagerScript.ActualGameState;
 
-        explore(actualNode, 1, 0);
+        Explore(actualNode, 1, 0);
 
-        /*for (var i = 0; i < sizeGameState; i++)
-        {
-            if(gameStates[i].score != float.MaxValue)Debug.Log(gameStates[i].score);
-        }*/
-
-        return analyse();
+        return Analyse();
     }
 
-    public Vector3 analyse()
+    public Vector3 Analyse()
     {
         var minScore = float.MaxValue;
         var minVector = Vector3.zero;
 
-        for(var i=0; i<sizeGameState;i++)
+        for(var i = 0; i < sizeGameState; i++)
         {
-            if(nodes[i].score<minScore)
+            if(nodes[i].score < minScore)
             {
                 minScore = nodes[i].score;
                 minVector = nodes[i].firstDirection;
             }
         }
-        //Debug.Log(minScore);
+
         return minVector;
     }
 
-    public void explore(Node node, int depth, int index)
+    public void Explore(Node node, int depth, int index)
     {
         if (depth > analyseDepth)
             return;
 
-        for(var i = 0; i < 8; i++)
+        for (var i = 0; i < 8; i++)
         {
             if (depth == 1)
             {
@@ -94,29 +95,15 @@ public class IAScript : MonoBehaviour {
             gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i]);
 
             nodes[index].score = 1 / nodes[index].gameState.minDistToIA
-                + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.x - nodes[index].gameState.iaPosition.x)
-                + Mathf.Abs(gameManagerScript.MapManagerScript.getGoalTransform().position.z - nodes[index].gameState.iaPosition.z);
+                + Mathf.Abs(gameManagerScript.MapManagerScript.GetGoalTransform().position.x - nodes[index].gameState.iaPosition.x)
+                + Mathf.Abs(gameManagerScript.MapManagerScript.GetGoalTransform().position.z - nodes[index].gameState.iaPosition.z);
 
-            //Quitte si collision
             if (nodes[index].score == float.MaxValue)
                 return;
 
             nodes[index].cost = depth;
 
-            explore(nodes[index], depth + 1, ++index);
+            Explore(nodes[index], depth + 1, ++index);
         }
-    }
-
-
-    void Start()
-    {
-        sizeGameState = (int)Mathf.Pow(8, analyseDepth);
-        var nbBombs = gameManagerScript.CollisionManagerScript.getBombManagers().Length;
-        nodes = new Node[sizeGameState];
-        for(var i=0;i<sizeGameState;i++)
-        {
-            nodes[i] = new Node(nbBombs);
-        }
-        actualNode = new Node(nbBombs);
     }
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameState  {
+public class GameState
+{
 
     public Vector3 iaPosition;
     public Vector3 iaDirection;
@@ -17,13 +18,13 @@ public class GameState  {
         minDistToIA = 0;
         bombs = new BombInfo[nbBombs];
 
-        for(var i=0;i< nbBombs; i++)
+        for(var i = 0; i < nbBombs; i++)
         {
             bombs[i] = new BombInfo();
         }
     }
 
-    public void Copy(GameState gs)
+    /*public void Copy(GameState gs)
     {
         gs.iaDirection = iaDirection;
         gs.iaPosition = iaPosition;
@@ -34,7 +35,7 @@ public class GameState  {
         {
             bombs[i].Copy(gs.bombs[i]);
         }
-    }
+    }*/
     
 }
 
@@ -53,6 +54,7 @@ public class BombInfo
         state = BombState.Normal;
     }
 
+    /*
     public void Copy(BombInfo bi)
     {
         bi.position = position;
@@ -60,8 +62,6 @@ public class BombInfo
         bi.direction = direction;
         bi.state = state;
     }
-
+    */
 }
-
-public enum BombState { Normal, Explosion, Laser };
 

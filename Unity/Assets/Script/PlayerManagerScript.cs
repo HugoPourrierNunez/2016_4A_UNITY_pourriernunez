@@ -5,18 +5,13 @@ public class PlayerManagerScript : MonoBehaviour {
 
     GameManagerScript gameManagerScript;
 
-    public void setGameManagerScript(GameManagerScript gmScript)
+    public void SetGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
     }
-
-    // Use this for initialization
-    void Start () {
-	    
-	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         TriggerExplosion();
 	}
 
@@ -25,17 +20,17 @@ public class PlayerManagerScript : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f))//récupère la cible de la souris
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, 100.0f))
             {
-                for(int i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)//parcours du tableau des bombes
+                for(var i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)
                 {
-                    if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))//identification de la cible dans le tableau
+                    if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))
                     {
-                        if(gameManagerScript.ActualGameState.bombs[i].state != BombState.Explosion)//vérifie que la bombe n'est pas déjà en train d'exploser
+                        if(gameManagerScript.ActualGameState.bombs[i].state != BombState.Explosion)
                         {
-                            gameManagerScript.ActualGameState.bombs[i].state = BombState.Explosion;//mise à jour du bombstate
-                            gameManagerScript.ActualGameState.bombs[i].delay = 2000;//initialisation du délai d'explosion
+                            gameManagerScript.ActualGameState.bombs[i].state = BombState.Explosion;
+                            gameManagerScript.ActualGameState.bombs[i].delay = 2000;
                         }
                     }
                 }
