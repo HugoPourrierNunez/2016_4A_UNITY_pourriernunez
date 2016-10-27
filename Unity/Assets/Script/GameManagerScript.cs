@@ -2,6 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum BombState
+{
+    Normal,
+    Explosion,
+    BOOM
+}
+
 public class GameManagerScript : MonoBehaviour {
 
     public GameState actualGameState;

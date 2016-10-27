@@ -1,13 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum BombState
-{
-    Normal,
-    Explosion,
-    BOOM
-}
-
 public class BombManagerScript : MonoBehaviour
 {
     [SerializeField]
