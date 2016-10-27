@@ -16,9 +16,6 @@ public class GameManagerScript : MonoBehaviour {
     StateManagerScript stateManagerScript;
 
     [SerializeField]
-    IAManagerScript iaManagerScript;
-
-    [SerializeField]
     PlayerManagerScript playerManagerScript;
 
     [SerializeField]
@@ -37,14 +34,6 @@ public class GameManagerScript : MonoBehaviour {
         get
         {
             return mapManagerScript;
-        }
-    }
-
-    public IAManagerScript IaManagerScript
-    {
-        get
-        {
-            return iaManagerScript;
         }
     }
 
@@ -83,7 +72,6 @@ public class GameManagerScript : MonoBehaviour {
         mapManagerScript.setGameManagerScript(this);
         collisionManagerScript.setGameManagerScript(this);
         stateManagerScript.setGameManagerScript(this);
-        iaManagerScript.setGameManagerScript(this);
         playerManagerScript.setGameManagerScript(this);
 
         if(iAScript!=null)

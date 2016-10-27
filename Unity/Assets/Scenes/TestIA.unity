@@ -956,7 +956,6 @@ MonoBehaviour:
   collisionManagerScript: {fileID: 1149942498}
   mapManagerScript: {fileID: 698118860}
   stateManagerScript: {fileID: 277661695}
-  iaManagerScript: {fileID: 0}
   playerManagerScript: {fileID: 322542821}
   iAScript: {fileID: 267684853}
 --- !u!4 &562546744
