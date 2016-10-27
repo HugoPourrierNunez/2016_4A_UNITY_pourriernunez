@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GameManagerScript : MonoBehaviour {
 
-    GameState actualGameState;
+    public GameState actualGameState;
 
     [SerializeField]
     CollisionManagerScript collisionManagerScript;
@@ -88,5 +88,7 @@ public class GameManagerScript : MonoBehaviour {
         actualGameState.iaPosition = new Vector3(-19, .5f, -19);
         collisionManagerScript.InitializeBombInfo(actualGameState);
         actualGameState.timeSinceStart = Time.time * 1000;
+
+
     }
 }
