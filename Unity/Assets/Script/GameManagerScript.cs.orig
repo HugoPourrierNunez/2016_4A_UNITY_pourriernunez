@@ -90,4 +90,32 @@ public class GameManagerScript : MonoBehaviour {
         }
         
     }
+<<<<<<< HEAD
+=======
+
+    void Start()
+    {
+        mapManagerScript.setGameManagerScript(this);
+        collisionManagerScript.setGameManagerScript(this);
+        stateManagerScript.setGameManagerScript(this);
+        playerManagerScript.setGameManagerScript(this);
+
+        if(iAScript!=null)
+            iAScript.setGameManagerScript(this);
+
+        initializeGameState();
+    }
+
+    public void initializeGameState()
+    {
+        //Debug.Log("init gamestate");
+        actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
+
+        actualGameState.iaPosition = new Vector3(-19, .5f, -19);
+        collisionManagerScript.InitializeBombInfo(actualGameState);
+        actualGameState.timeSinceStart = Time.time * 1000;
+
+
+    }
+>>>>>>> 78b6b6f2674f91dd64631dccb6b8819241a7b43d
 }

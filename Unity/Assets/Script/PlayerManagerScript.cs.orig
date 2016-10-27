@@ -13,7 +13,12 @@ public class PlayerManagerScript : MonoBehaviour
     {
         this.gameManagerScript = gmScript;
     }
+<<<<<<< HEAD
+	
+	void Update ()
+=======
 
+    // Use this for initialization
     void Start()
     {
         this.firstBombChoosen = null;
@@ -21,10 +26,12 @@ public class PlayerManagerScript : MonoBehaviour
         lineY = GetComponent<LineRenderer>();
     }
 
-	void Update ()
+    // Update is called once per frame
+    void Update()
+>>>>>>> 78b6b6f2674f91dd64631dccb6b8819241a7b43d
     {
         TriggerExplosion();
-		TriggerLaser();
+        TriggerLaser();
     }
 
     void TriggerExplosion()
@@ -35,11 +42,19 @@ public class PlayerManagerScript : MonoBehaviour
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
+<<<<<<< HEAD
                 for(var i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)
+=======
+                for (int i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)//parcours du tableau des bombes
+>>>>>>> 78b6b6f2674f91dd64631dccb6b8819241a7b43d
                 {
                     if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))
                     {
+<<<<<<< HEAD
                         if(gameManagerScript.ActualGameState.bombs[i].state != BombState.Explosion)
+=======
+                        if (gameManagerScript.ActualGameState.bombs[i].state != BombState.Explosion)//vérifie que la bombe n'est pas déjà en train d'exploser
+>>>>>>> 78b6b6f2674f91dd64631dccb6b8819241a7b43d
                         {
                             gameManagerScript.ActualGameState.bombs[i].state = BombState.Explosion;
                             gameManagerScript.ActualGameState.bombs[i].delay = 2000;
@@ -55,12 +70,12 @@ public class PlayerManagerScript : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, 100.0f))//récupère la cible de la souris
             {
-                for (var i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)
+                for (int i = 0; i < gameManagerScript.CollisionManagerScript.bombManagers.Length; i++)//parcours du tableau des bombes
                 {
-                    if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))
+                    if (gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.Equals(hit.transform.gameObject))//identification de la cible dans le tableau
                     {
                         lineX.SetPosition(0, new Vector3(gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.transform.position.x, 0, 20));
                         lineX.SetPosition(1, new Vector3(gameManagerScript.CollisionManagerScript.bombManagers[i].gameObject.transform.position.x, 0, -20));
