@@ -59,6 +59,7 @@ public class CollisionManagerScript : MonoBehaviour
 
     [SerializeField]
     float bombRadius = 0.5f;
+    float explosionRadius;
     float iaRadius;
     float minDistToIA;
 
@@ -155,16 +156,40 @@ public class CollisionManagerScript : MonoBehaviour
         for (var i = 0; i < nbBombs; i++)
         {
             gameState.bombs[i].delay -= (Time.time * 1000) - gameState.timeSinceStart;
-
-            if (gameState.bombs[i].delay <= 0)
+            
+            switch (gameState.bombs[i].state)
             {
-                gameState.bombs[i].state = BombState.Normal;
+                case BombState.BOOM:
+
+                    if (gameState.bombs[i].delay <= -0.5 || gameState.bombs[i].delay > 0)
+                    {
+                        bombManagers[i].transform.GetChild(0).gameObject.SetActive(false);
+                        gameState.bombs[i].state = BombState.Normal;
+                    }
+                    break;
+                case BombState.Explosion:
+                    if (gameState.bombs[i].delay <= 0)
+                    {
+                        bombManagers[i].transform.GetChild(0).gameObject.SetActive(true);
+                        gameState.bombs[i].state = BombState.BOOM;
+
+                    }
+                    break;
             }
 
             gameState.bombs[i].position.x += bombSpeed * Time.deltaTime * gameState.bombs[i].direction.x;
             gameState.bombs[i].position.z += bombSpeed * Time.deltaTime * gameState.bombs[i].direction.z;
 
-            var XZ = Mathf.Abs(gameState.bombs[i].position.x - gameState.iaPosition.x) + Mathf.Abs(gameState.bombs[i].position.z - gameState.iaPosition.z);
+            if (gameState.bombs[i].state == BombState.BOOM)
+            {
+                explosionRadius = 0.25f;
+            }
+            else
+            {
+                explosionRadius = 0;
+            }
+
+            var XZ = Mathf.Abs(gameState.bombs[i].position.x - gameState.iaPosition.x) + Mathf.Abs(gameState.bombs[i].position.z - gameState.iaPosition.z) - explosionRadius;
 
             if (XZ < minXZ)
             {
