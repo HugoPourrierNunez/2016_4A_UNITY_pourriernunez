@@ -128,6 +128,6 @@ public class IAManagerScript : MonoBehaviour
 
     public void ApplyStateToIa(GameState gameState)
     {
-        transformIA.position = new Vector3(gameState.iaPosition.x + gameState.iaDirection.x * speedIA * Time.deltaTime, 0.0f, gameState.iaPosition.z + gameState.iaDirection.y * speedIA * Time.deltaTime);
+        transformIA.position = new Vector3(gameState.iaPosition.x + gameState.iaDirection.x * speedIA * Time.deltaTime, 0.0f, gameState.iaPosition.z + gameState.iaDirection.z * speedIA * Time.deltaTime);
     }
 }

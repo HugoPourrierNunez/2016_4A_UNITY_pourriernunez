@@ -41,12 +41,15 @@ public class IAScript : MonoBehaviour {
             gameStates[i].score = float.MaxValue;
         }
 
-        explore(gameManagerScript.ActualGameState, 1, 0);
         
-        for(var i=0;i<sizeGameState;i++)
+        for(var i=0;i<8;i++)
         {
-            Debug.Log(gameStates[i].score);
+            explore(gameManagerScript.ActualGameState, 1, i);
         }
+        /*for (var i = 0; i < sizeGameState; i++)
+        {
+            if(gameStates[i].score != float.MaxValue)Debug.Log(gameStates[i].score);
+        }*/
 
         return analyse();
     }
@@ -54,7 +57,7 @@ public class IAScript : MonoBehaviour {
     public Vector3 analyse()
     {
         var minScore = float.MaxValue;
-        var minVector = Vector2.zero;
+        var minVector = Vector3.zero;
 
         for(var i=(int) Mathf.Pow(8,analyseDepth-1); i<sizeGameState;i++)
         {
@@ -70,13 +73,7 @@ public class IAScript : MonoBehaviour {
 
     public void explore(GameState gs, int depth, int index)
     {
-        if (depth>analyseDepth)
-            return ;
-
-        gameManagerScript.CollisionManagerScript.FillNextGameState(gs, gameStates[index]); 
-
-        //Quitte si collision
-        if (gameStates[index].score >= 1)
+        if (depth > analyseDepth)
             return;
 
         for(var i = 0; i < 8; i++)
@@ -90,8 +87,16 @@ public class IAScript : MonoBehaviour {
                 gameStates[index].originalDirection = gs.originalDirection;
             }
 
-            gameStates[index].iaPosition = gs.iaPosition + Direction[i] * Time.deltaTime;
-            explore(gameStates[index],depth+1, index+(int) Mathf.Pow(8,depth));
+            gameManagerScript.CollisionManagerScript.FillNextGameState(gs, gameStates[index], Direction[i]);
+
+            //Quitte si collision
+            if (gameStates[index].score == float.MaxValue)
+                return;
+
+            var nb = index - (int)Mathf.Pow(8, depth - 1) + 1;
+
+            explore(gameStates[index], depth + 1, (int)Mathf.Pow(8, depth-1) + i - 1);
+            //explore(gameStates[index],depth+1, (int)Mathf.Pow(8, depth) + 7 * nb + i);
         }
     }
 

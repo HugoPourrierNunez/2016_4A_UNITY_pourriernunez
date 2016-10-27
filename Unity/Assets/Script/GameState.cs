@@ -47,14 +47,14 @@ public class BombInfo
 {
     public Vector3 position;
     public float delay;
-    public Vector2 direction;
+    public Vector3 direction;
     public BombState state;
 
     public BombInfo()
     {
         position = Vector3.zero;
         delay = 0;
-        direction = Vector2.zero;
+        direction = Vector3.zero;
         state = BombState.Normal;
     }
 

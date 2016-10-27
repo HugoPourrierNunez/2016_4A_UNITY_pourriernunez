@@ -20,9 +20,9 @@ public class HeuristicScript : MonoBehaviour
         return 1 / minDistance + Mathf.Pow(goal.x - state.iaPosition.x, 2) + Mathf.Pow(goal.z - state.iaPosition.z, 2);
     }
 
-    public float GetLongHeuristic(GameState state, Vector2 goal)
+    public float GetLongHeuristic(GameState state, Vector3 goal)
     {
-        return 1 / (Mathf.Pow((goal.x - state.iaPosition.x), 2) + Mathf.Pow((goal.y - state.iaPosition.z), 2));
+        return 1 / (Mathf.Pow((goal.x - state.iaPosition.x), 2) + Mathf.Pow((goal.z - state.iaPosition.z), 2));
     }
 
 }

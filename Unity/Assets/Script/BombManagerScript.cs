@@ -69,9 +69,9 @@ public class BombManagerScript : MonoBehaviour
         transform.position += vect;
     }*/
 
-    public Vector2 getDirection()
+    public Vector3 getDirection()
     {
-        return new Vector2(dx, dz);
+        return new Vector3(dx, dz);
     }
 
     public void ApplyBombInfo(BombInfo bombInfo)

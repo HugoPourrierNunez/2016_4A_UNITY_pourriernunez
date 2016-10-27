@@ -128,22 +128,21 @@ public class StateManagerScript : MonoBehaviour {
 
         // Side effect of the inGame GameState change (update the view)
         inGameGameStateStream.Subscribe(_ => {
-            gameManagerScript.ActualGameState = GetNextState(gameManagerScript.ActualGameState);
             //GameState gs = gameManagerScript.ActualGameState;
             //gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
             //gameManagerScript.ActualGameState = gs;
 
             gameManagerScript.ActualGameState.iaDirection =  gameManagerScript.IAScript.getNextDirectionIA();
+            GetNextState(gameManagerScript.ActualGameState);
             ApplyGameState();
             });
 
     }
 
-    private GameState GetNextState(GameState gameState)
+    private void GetNextState(GameState gameState)
     {
-        gameState = gameManagerScript.CollisionManagerScript.HandleBombCollision(gameState);
+        gameManagerScript.CollisionManagerScript.HandleBombCollision(gameState);
         gameState.timeSinceStart = Time.time * 1000;
-        return gameState;
     }
 
     private void ApplyGameState()
