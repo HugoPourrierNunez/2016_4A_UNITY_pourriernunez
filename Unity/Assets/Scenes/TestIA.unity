@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692504, g: 0.4967869, b: 0.57508504, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -431,7 +431,7 @@ Transform:
   m_Children:
   - {fileID: 1493777134}
   m_Father: {fileID: 319646661}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &267684853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,7 +642,6 @@ Transform:
   - {fileID: 1149942499}
   - {fileID: 322542820}
   - {fileID: 1234477088}
-  - {fileID: 2024121017}
   - {fileID: 267684852}
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -957,7 +956,7 @@ MonoBehaviour:
   collisionManagerScript: {fileID: 1149942498}
   mapManagerScript: {fileID: 698118860}
   stateManagerScript: {fileID: 277661695}
-  iaManagerScript: {fileID: 2024121016}
+  iaManagerScript: {fileID: 0}
   playerManagerScript: {fileID: 322542821}
   iAScript: {fileID: 267684853}
 --- !u!4 &562546744
@@ -3338,54 +3337,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1145127940}
   m_Script: {fileID: 11500000, guid: 5a724a1fb46a5964c98545a8bcd15a4d, type: 3}
---- !u!1 &2024121015
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2024121017}
-  - 114: {fileID: 2024121016}
-  m_Layer: 0
-  m_Name: IAManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2024121016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2024121015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09a1a7b5d24a4a4449716771ebb20f64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxIteration: 0
-  transformIA: {fileID: 0}
-  transformEnd: {fileID: 0}
-  rendererArene: {fileID: 0}
-  transformPlayer: {fileID: 267684852}
-  rendererPlayer: {fileID: 267684849}
-  speedIA: 0.1
-  planeRenderer: {fileID: 623872328}
---- !u!4 &2024121017
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2024121015}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19, y: 1, z: -19}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 319646661}
-  m_RootOrder: 5
 --- !u!1001 &2097434205
 Prefab:
   m_ObjectHideFlags: 0

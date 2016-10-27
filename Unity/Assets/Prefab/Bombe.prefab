@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombGO: {fileID: 1000010509305426}
+  rendererBomb: {fileID: 23000010271510946}
 --- !u!135 &135000013495208236
 SphereCollider:
   m_ObjectHideFlags: 1
