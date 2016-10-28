@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
+using System;
 
 public enum BombState
 {
@@ -12,6 +13,20 @@ public enum BombState
     BOOM,
     Laser, 
     BZZZ
+}
+
+[Serializable()]
+public class SerializeValue
+{
+    public SerializeValue()
+    {
+    }
+
+    [XmlElement("Seed")]
+    public int seed { get; set; }
+
+    [XmlElement("NameMap")]
+    public string nameMap { get; set; }
 }
 
 public class GameManagerScript : MonoBehaviour {
