@@ -37,18 +37,30 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     AStarGridScript aStarGridScript;
 
-    void Start()
+    [SerializeField]
+    IAWithAStarScript iAWithAStarScript;
+
+    void OnEnable()
     {
         mapManagerScript.SetGameManagerScript(this);
         collisionManagerScript.SetGameManagerScript(this);
         stateManagerScript.SetGameManagerScript(this);
         playerManagerScript.SetGameManagerScript(this);
         //longTermScript.SetGameManagerScript(this);
-        aStarGridScript.SetGameManagerScript(this);
 
         if (iAScript != null)
         {
             iAScript.SetGameManagerScript(this);
+        }
+
+        if (iAWithAStarScript != null)
+        {
+            iAWithAStarScript.SetGameManagerScript(this);
+        }
+
+        if (aStarGridScript != null)
+        {
+            aStarGridScript.SetGameManagerScript(this);
         }
 
         InitializeGameState();
@@ -95,6 +107,7 @@ public class GameManagerScript : MonoBehaviour {
         actualGameState.iaPosition = new Vector3(-19, .5f, -19);
         collisionManagerScript.InitializeBombInfo(actualGameState);
         actualGameState.timeSinceStart = Time.time * 1000;
+        aStarGridScript.InitializeGridDimensions();
     }
 
     public CollisionManagerScript CollisionManagerScript
@@ -140,6 +153,15 @@ public class GameManagerScript : MonoBehaviour {
         {
             return iAScript;
         }
-        
+
+    }
+
+    public IAWithAStarScript IAWithAStarScript
+    {
+        get
+        {
+            return iAWithAStarScript;
+        }
+
     }
 }

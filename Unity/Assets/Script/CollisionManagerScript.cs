@@ -199,8 +199,16 @@ public class CollisionManagerScript : MonoBehaviour
             }
         }
 
-        gameState.minDistToIA = Mathf.Sqrt(Mathf.Pow((gameState.bombs[minIndex].position.x - gameState.iaPosition.x), 2)
-                                                    + Mathf.Pow((gameState.bombs[minIndex].position.z - gameState.iaPosition.z), 2));
+        if (gameState.bombs.Length > 0)
+        {
+            gameState.minDistToIA = Mathf.Sqrt(Mathf.Pow((gameState.bombs[minIndex].position.x - gameState.iaPosition.x), 2)
+                                                        + Mathf.Pow((gameState.bombs[minIndex].position.z - gameState.iaPosition.z), 2));
+        }
+        else
+        {
+            minDistToIA = float.MaxValue;
+        }
+
 
         if (gameState.minDistToIA <= iaRadius + bombRadius)
         {
@@ -293,8 +301,15 @@ public class CollisionManagerScript : MonoBehaviour
             }
         }
 
-        nextGameState.minDistToIA = Mathf.Sqrt(Mathf.Pow((nextGameState.bombs[minIndex].position.x - nextGameState.iaPosition.x), 2)
-                                                    + Mathf.Pow((nextGameState.bombs[minIndex].position.z - nextGameState.iaPosition.z), 2));
+        if(nextGameState.bombs.Length > 0)
+        {
+            nextGameState.minDistToIA = Mathf.Sqrt(Mathf.Pow((nextGameState.bombs[minIndex].position.x - nextGameState.iaPosition.x), 2)
+                                                        + Mathf.Pow((nextGameState.bombs[minIndex].position.z - nextGameState.iaPosition.z), 2));
+        }
+        else
+        {
+            minDistToIA = float.MaxValue;
+        }
 
         if (nextGameState.minDistToIA <= iaRadius + bombRadius)
         {

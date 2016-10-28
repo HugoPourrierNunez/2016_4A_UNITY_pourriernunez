@@ -5,38 +5,31 @@ using System.Collections.Generic;
 public class LongTermScript : MonoBehaviour
 {
     [SerializeField]
-    Transform targetTransform;
-
-    [SerializeField]
-    Transform iaTransform;
-
-    [SerializeField]
     AStarGridScript aStarGridScript;
 
     [SerializeField]
     int stepBetweenCheckPoints;
 
-    public Vector3[] FindAICheckPoints()
+    public Vector3[] FindAICheckPoints(Vector3 iaPosition, Vector3 targetPosition)
     {
-        var path = FindPath();
+        Debug.Log("finding CP");
+        var path = FindPath(iaPosition, targetPosition);
         var checkPointsCount = (int)Mathf.Ceil(path.Count / stepBetweenCheckPoints);
         var checkPoints = new Vector3[checkPointsCount];
         var index = 0;
 
         for (var i = 0; i < checkPointsCount; i++)
         {
+
+            Debug.Log("allo?");
             index = ((i + 1) * stepBetweenCheckPoints > path.Count) ? path.Count - 1 : (i + 1) * stepBetweenCheckPoints;
             checkPoints[i] = path[index].worldPosition;
         }
-
         return checkPoints;
     }
 
-    public List<LongTermNode> FindPath()
+    public List<LongTermNode> FindPath(Vector3 startPosition, Vector3 targetPosition)
     {
-        var startPosition = iaTransform.position;
-        var targetPosition = targetTransform.position;
-
         var startNode = aStarGridScript.NodeFromWorldPoint(startPosition);
         var targetNode = aStarGridScript.NodeFromWorldPoint(targetPosition);
 
@@ -45,6 +38,9 @@ public class LongTermScript : MonoBehaviour
         var openCount = openSet.Count;
 
         var node = startNode;
+        var index = 0;
+
+        node.closed = true;
 
         while (openCount > 0)
         {
@@ -55,7 +51,7 @@ public class LongTermScript : MonoBehaviour
                 if (openSet[i].Score < node.Score || (openSet[i].Score == node.Score && openSet[i].cost < node.cost))
                 {
                     node = openSet[i];
-                    openSet.RemoveAt(i);
+                    index = i;
                 }
             }
 
@@ -86,9 +82,11 @@ public class LongTermScript : MonoBehaviour
                     {
                         neighbours[i].visited = true;
                         openSet.Add(neighbours[i]);
+                        openCount++;
                     }
                 }
             }
+            openSet.RemoveAt(index);
         }
 
         return null;

@@ -11,7 +11,6 @@ public class AStarGridScript : MonoBehaviour
         this.gameManagerScript = gmScript;
     }
 
-    public LayerMask unwalkableMask;
     public Vector3 gridWorldSize;
     public float nodeRadius;
 
@@ -27,12 +26,12 @@ public class AStarGridScript : MonoBehaviour
     int gridSizeX;
     int gridSizeZ;
 
-    void InitializeeGridDimensions()
+    public void InitializeGridDimensions()
     {
         nodeDiameter = nodeRadius * 2;
-        gridSizeX = (int)(gameManagerScript.MapManagerScript.GetPlaneTransform().lossyScale.x / nodeDiameter);
+        gridSizeX = (int)(gameManagerScript.MapManagerScript.GetPlaneTransform().lossyScale.x / nodeDiameter) * 10;
         //gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-        gridSizeZ = (int)(gameManagerScript.MapManagerScript.GetPlaneTransform().lossyScale.z / nodeDiameter);
+        gridSizeZ = (int)(gameManagerScript.MapManagerScript.GetPlaneTransform().lossyScale.z / nodeDiameter) * 10;
         //gridSizeZ = Mathf.RoundToInt(gridWorldSize.z / nodeDiameter);
         CreateGrid();
     }
@@ -67,9 +66,9 @@ public class AStarGridScript : MonoBehaviour
                     {
                         walkable = false;
                     }
-                    grid[x * gridSizeX + z ] = new LongTermNode(walkable, worldBottomLeft + casePosition, x, z);
-                    grid[x * gridSizeX + z].weight = gridSizeX + gridSizeZ - x - z;
                 }
+                grid[x * gridSizeX + z] = new LongTermNode(walkable, worldBottomLeft + casePosition, x, z);
+                grid[x * gridSizeX + z].weight = gridSizeX + gridSizeZ - x - z;
             }
         }
     }
@@ -136,20 +135,4 @@ public class AStarGridScript : MonoBehaviour
     }
 
     public List<LongTermNode> path;
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-
-        if (grid != null)
-        {
-            foreach (LongTermNode n in grid)
-            {
-                Gizmos.color = (n.walkable) ? Color.white : Color.red;
-                if (path != null)
-                    if (path.Contains(n))
-                        Gizmos.color = Color.black;
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-            }
-        }
-    }
 }

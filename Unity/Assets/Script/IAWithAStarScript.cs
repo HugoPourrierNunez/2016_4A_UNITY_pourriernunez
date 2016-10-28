@@ -7,6 +7,9 @@ public class IAWithAStarScript : MonoBehaviour
     [SerializeField]
     private int analyseDepth = 3;
 
+    [SerializeField]
+    LongTermScript longTermScript;
+
     GameManagerScript gameManagerScript;
     Node[] nodes;
     Node actualNode;
@@ -40,10 +43,11 @@ public class IAWithAStarScript : MonoBehaviour
         }
         actualNode = new Node(nbBombs);
 
-        MultiThreadingScript mts = new MultiThreadingScript(new IACallBack(ResultCallback));
+        MultiThreadingScript mts = new MultiThreadingScript(new IACallBack(ResultCallback), longTermScript, gameManagerScript.actualGameState.iaPosition, gameManagerScript.MapManagerScript.GetGoalTransform().position);
 
         Thread t = new Thread(new ThreadStart(mts.GetCheckPoints));
         t.Start();
+        t.Join();
     }
 
     public void ResultCallback(Vector3[] checkPoints)
