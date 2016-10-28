@@ -134,8 +134,7 @@ public class CollisionManagerScript : MonoBehaviour
             {
                 gameState.bombs[i].delay -= deltaTime*1000;
             }
-
-            //Debug.Log(gameState.bombs[i].direction);
+            
             gameState.bombs[i].position.x += bombSpeed * Time.fixedDeltaTime * gameState.bombs[i].direction.x;
             gameState.bombs[i].position.z += bombSpeed * Time.fixedDeltaTime * gameState.bombs[i].direction.z;
 
@@ -161,21 +160,19 @@ public class CollisionManagerScript : MonoBehaviour
         {
             gameState.minDistToIA = Mathf.Sqrt(Mathf.Pow((gameState.bombs[minIndex].position.x - gameState.iaPosition.x), 2)
                                                         + Mathf.Pow((gameState.bombs[minIndex].position.z - gameState.iaPosition.z), 2));
+
+
+            if (gameState.minDistToIA <= iaRadius + bombRadius + (gameState.bombs[minIndex].state == BombState.BOOM ? 1 : 0))
+            {
+                gameManagerScript.StateManagerScript.EndGame(true);
+                return;
+            }
         }
         else
         {
             minDistToIA = float.MaxValue;
         }
-
-
-        if (gameState.minDistToIA <= iaRadius + bombRadius + (gameState.bombs[minIndex].state == BombState.BOOM ? 1 : 0))
-        {
-            gameManagerScript.StateManagerScript.EndGame(true);
-            return;
-        }
-
-
-
+        
         for (var i = 0; i < nbBombs; i++)
         {
             BombCollideWithWall(i, gameState);

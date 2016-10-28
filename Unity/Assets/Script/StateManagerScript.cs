@@ -52,7 +52,6 @@ public class StateManagerScript : MonoBehaviour {
 
     public void EndGame(bool isDead)
     {
-        //Debug.Log("isdead= "+ isDead);
         iaIsDead = isDead;
         endGame.SetValueAndForceNotify(true);
     }

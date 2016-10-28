@@ -54,10 +54,6 @@ public class IAWithAStarScript : MonoBehaviour
     IEnumerator GetCheckPoints()
     {
         checkPoints = longTermScript.FindAICheckPoints(gameManagerScript.actualGameState.iaPosition, gameManagerScript.MapManagerScript.GetGoalTransform().position);
-        for(var i = 0; i < checkPoints.Length; i++)
-        {
-            Debug.Log(checkPoints[i].x + "/" + checkPoints[i].z);
-        }
         yield return new WaitForSeconds(1.0f);
         longTermPlanned = true;
     }
@@ -89,14 +85,11 @@ public class IAWithAStarScript : MonoBehaviour
         actualNode.cost = 0;
         actualNode.gameState = gameManagerScript.ActualGameState;
 
-        Debug.Log(actualNode.gameState.iaPosition.x + "/" + actualNode.gameState.iaPosition.z);
-
         if (actualNode.gameState.iaPosition.x + gameManagerScript.CollisionManagerScript.iaRadius > checkPoints[reachedCheckPoint].x
             && actualNode.gameState.iaPosition.x - gameManagerScript.CollisionManagerScript.iaRadius < checkPoints[reachedCheckPoint].x
             && actualNode.gameState.iaPosition.z + gameManagerScript.CollisionManagerScript.iaRadius > checkPoints[reachedCheckPoint].z
             && actualNode.gameState.iaPosition.z - gameManagerScript.CollisionManagerScript.iaRadius < checkPoints[reachedCheckPoint].z)
         {
-            //Debug.Log(actualNode.gameState.iaPosition.x + "/" + actualNode.gameState.iaPosition.z);
             reachedCheckPoint++;
         }
 
