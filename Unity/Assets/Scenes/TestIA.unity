@@ -560,7 +560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad833969e52f4ff48b9e3030921653cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  analyseDepth: 3
+  analyseDepth: 5
+  gameManagerScript: {fileID: 562546743}
 --- !u!1 &277661694
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +598,7 @@ MonoBehaviour:
   RestartGameButton: {fileID: 978239782}
   QuitGameButton: {fileID: 1750139654}
   startLogoDelai: 0
-  inGameDelai: 10
+  inGameDelai: 0
   mainCamera: {fileID: 994114500}
 --- !u!4 &277661696
 Transform:
@@ -1221,6 +1222,8 @@ MonoBehaviour:
   stateManagerScript: {fileID: 277661695}
   playerManagerScript: {fileID: 322542821}
   iAScript: {fileID: 267684853}
+  longTermScript: {fileID: 0}
+  aStarGridScript: {fileID: 0}
 --- !u!4 &562546744
 Transform:
   m_ObjectHideFlags: 0
@@ -2065,12 +2068,13 @@ MonoBehaviour:
   transformPlayer: {fileID: 267684852}
   rendererPlayer: {fileID: 267684849}
   physicSpeed: 4
-  physicSpeedForPrediction: 5
-  iaSpeed: 3
-  bombSpeed: 1
-  distanceIgnore: 1000
+  physicSpeedForPrediction: 10
+  iaSpeed: 5
+  bombSpeed: 2
+  distanceIgnore: 50
   coefPrediction: 3
   bombRadius: 0.5
+  iaRadius: 0
 --- !u!4 &1149942499
 Transform:
   m_ObjectHideFlags: 0

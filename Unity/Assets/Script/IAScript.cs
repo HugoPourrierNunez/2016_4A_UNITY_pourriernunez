@@ -37,7 +37,6 @@ public class IAScript : MonoBehaviour
            0,7,1,0,
            0,0,0,2,
            0,0,3,5
-
         };
 
     void Start()
@@ -95,11 +94,11 @@ public class IAScript : MonoBehaviour
         if (depth > analyseDepth)
             return;
 
-        for (var i = 0; i < 8; i++)
+        for (var i = 0; i < 4; i++)
         {
             if (depth == 1)
             {
-                nodes[index].firstDirection = Direction[i];
+                nodes[index].firstDirection = Direction[i*2];
             }
             else
             {
@@ -108,7 +107,7 @@ public class IAScript : MonoBehaviour
 
             nodes[index].isClosed = false;
 
-            gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i]);
+            gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i * 2]);
 
             if (nodes[index].gameState.minDistToIA == 0)
             {

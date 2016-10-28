@@ -46,7 +46,11 @@ public class GameManagerScript : MonoBehaviour {
         stateManagerScript.SetGameManagerScript(this);
         playerManagerScript.SetGameManagerScript(this);
         //longTermScript.SetGameManagerScript(this);
-        aStarGridScript.SetGameManagerScript(this);
+
+        if (aStarGridScript != null)
+        {
+            aStarGridScript.SetGameManagerScript(this);
+        }
 
         if (iAScript != null)
         {
