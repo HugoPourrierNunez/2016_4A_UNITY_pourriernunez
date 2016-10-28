@@ -127,14 +127,14 @@ public class StateManagerScript : MonoBehaviour {
             .Repeat();
 
         // Side effect of the inGame GameState change (update the view)
-        inGameGameStateStream.Subscribe(_ => {
-            //GameState gs = gameManagerScript.ActualGameState;
-            //gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
-            //gameManagerScript.ActualGameState = gs;
-
-            gameManagerScript.ActualGameState.iaDirection =  gameManagerScript.IAScript.GetNextDirectionIA();
-            GetNextState(gameManagerScript.ActualGameState);
-            ApplyGameState();
+        inGameGameStateStream
+            .SubscribeOn(Scheduler.MainThread).ObserveOn(Scheduler.MainThread).Subscribe(_ => {
+                //GameState gs = gameManagerScript.ActualGameState;
+                //gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
+                //gameManagerScript.ActualGameState = gs;
+                gameManagerScript.ActualGameState.iaDirection = gameManagerScript.IAScript.GetNextDirectionIA();
+                GetNextState(gameManagerScript.ActualGameState);
+                ApplyGameState();
             });
 
     }

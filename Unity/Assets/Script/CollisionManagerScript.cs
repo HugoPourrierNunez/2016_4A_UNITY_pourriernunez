@@ -44,7 +44,7 @@ public class CollisionManagerScript : MonoBehaviour
     private Renderer rendererPlayer;
 
     [SerializeField]
-    float physicSpeed=4;
+    float physicSpeed = 4;
 
     [SerializeField]
     float physicSpeedForPrediction = 10;
@@ -59,8 +59,9 @@ public class CollisionManagerScript : MonoBehaviour
 
     [SerializeField]
     float bombRadius = 0.5f;
+
     float explosionRadius;
-    float iaRadius;
+    public float iaRadius;
     float minDistToIA;
 
     void OnEnable()

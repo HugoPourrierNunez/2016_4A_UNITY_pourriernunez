@@ -28,12 +28,20 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     IAScript iAScript;
 
+    [SerializeField]
+    LongTermScript longTermScript;
+
+    [SerializeField]
+    AStarGridScript aStarGridScript;
+
     void Start()
     {
         mapManagerScript.SetGameManagerScript(this);
         collisionManagerScript.SetGameManagerScript(this);
         stateManagerScript.SetGameManagerScript(this);
         playerManagerScript.SetGameManagerScript(this);
+        //longTermScript.SetGameManagerScript(this);
+        aStarGridScript.SetGameManagerScript(this);
 
         if (iAScript != null)
         {
@@ -41,6 +49,13 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         InitializeGameState();
+
+        //////////////////////////////////////////////////
+        //              Test multi-threading            //
+        //////////////////////////////////////////////////
+
+
+
     }
 
     public void InitializeGameState()
