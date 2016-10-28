@@ -30,9 +30,7 @@ public class AStarGridScript : MonoBehaviour
     {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = (int)(gameManagerScript.MapManagerScript.GetPlaneTransform().lossyScale.x / nodeDiameter) * 10;
-        //gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeZ = (int)(gameManagerScript.MapManagerScript.GetPlaneTransform().lossyScale.z / nodeDiameter) * 10;
-        //gridSizeZ = Mathf.RoundToInt(gridWorldSize.z / nodeDiameter);
         CreateGrid();
     }
 
@@ -73,7 +71,7 @@ public class AStarGridScript : MonoBehaviour
         }
     }
 
-    public List<LongTermNode> GetNeighbours(LongTermNode node)
+    public List<LongTermNode> GetOpenNeighbours(LongTermNode node)
     {
         var neighbours = new List<LongTermNode>();
         var i = 0;
@@ -90,7 +88,7 @@ public class AStarGridScript : MonoBehaviour
                 var checkX = node.gridX + x;
                 var checkZ = node.gridZ + z;
 
-                if (checkX >= 0 && checkX < gridSizeX && checkZ >= 0 && checkZ < gridSizeZ)
+                if (checkX >= 0 && checkX < gridSizeX && checkZ >= 0 && checkZ < gridSizeZ && !grid[checkX * gridSizeX + checkZ].closed)
                 {
                     neighbours.Add(grid[checkX * gridSizeX + checkZ]);
                     i++;

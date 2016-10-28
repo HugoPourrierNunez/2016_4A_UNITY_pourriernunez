@@ -57,7 +57,7 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     IAWithAStarScript iAWithAStarScript;
 
-    void Start()
+    void OnEnable()
     {
         mapManagerScript.SetGameManagerScript(this);
         collisionManagerScript.SetGameManagerScript(this);

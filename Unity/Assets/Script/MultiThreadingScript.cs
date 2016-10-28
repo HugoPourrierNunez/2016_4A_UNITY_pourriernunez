@@ -18,7 +18,6 @@ public class MultiThreadingScript : MonoBehaviour {
 
     public void GetCheckPoints()
     {
-        Debug.Log("hello");
         var checkPoints = longTermScript.FindAICheckPoints(startPosition, targetPosition);
         Debug.Log("CP found");
         callback(checkPoints);

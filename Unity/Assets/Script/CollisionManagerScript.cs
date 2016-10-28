@@ -119,14 +119,14 @@ public class CollisionManagerScript : MonoBehaviour
 
         Transform goalTransform = gameManagerScript.MapManagerScript.GetGoalTransform();
 
-        /*if (transformPlayer.position.x > goalTransform.position.x-goalTransform.localScale.x/2 
+        if (transformPlayer.position.x > goalTransform.position.x-goalTransform.localScale.x/2 
             && transformPlayer.position.x < goalTransform.position.x + goalTransform.localScale.x / 2
             && transformPlayer.position.z > goalTransform.position.z - goalTransform.localScale.z / 2
             && transformPlayer.position.z < goalTransform.position.z + goalTransform.localScale.z / 2)
         {
             gameManagerScript.StateManagerScript.EndGame(false);
             return;
-        }*/
+        }
 
         for (var i = 0; i < nbBombs; i++)
         {
@@ -168,11 +168,11 @@ public class CollisionManagerScript : MonoBehaviour
         }
 
 
-        /*if (gameState.minDistToIA <= iaRadius + bombRadius + (gameState.bombs[minIndex].state == BombState.BOOM ? 1 : 0))
+        if (gameState.minDistToIA <= iaRadius + bombRadius + (gameState.bombs[minIndex].state == BombState.BOOM ? 1 : 0))
         {
             gameManagerScript.StateManagerScript.EndGame(true);
             return;
-        }*/
+        }
 
 
 

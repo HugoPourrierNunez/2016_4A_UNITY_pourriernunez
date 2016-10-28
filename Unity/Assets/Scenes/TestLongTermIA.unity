@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9413db076a4f24ab7e70b34fa10112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  analyseDepth: 3
+  analyseDepth: 1
   longTermScript: {fileID: 2070897379}
 --- !u!1 &277661694
 GameObject:
@@ -1007,6 +1007,7 @@ MonoBehaviour:
   plane: {fileID: 623872327}
   goal: {fileID: 1930431231}
   obstacles: []
+  start: {fileID: 267684852}
 --- !u!4 &698118861
 Transform:
   m_ObjectHideFlags: 0
@@ -1405,6 +1406,8 @@ MonoBehaviour:
   physicSpeedForPrediction: 10
   iaSpeed: 20
   bombSpeed: 2
+  distanceIgnore: 50
+  coefPrediction: 10
   bombRadius: 0.5
   iaRadius: 0
 --- !u!4 &1149942499
@@ -1983,7 +1986,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 63a5534be5db92743bf93c937a8bcbaf, type: 2}
+  - {fileID: 2100000, guid: 8fd1fd25c2024234fa3fe9a3eba8680e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -2206,7 +2209,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4899acac9b0b6149844d3ee1059d42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 1930431231}
-  iaTransform: {fileID: 267684852}
   aStarGridScript: {fileID: 698118862}
   stepBetweenCheckPoints: 5

@@ -12,19 +12,18 @@ public class LongTermScript : MonoBehaviour
 
     public Vector3[] FindAICheckPoints(Vector3 iaPosition, Vector3 targetPosition)
     {
-        Debug.Log("finding CP");
         var path = FindPath(iaPosition, targetPosition);
-        var checkPointsCount = (int)Mathf.Ceil(path.Count / stepBetweenCheckPoints);
+        var checkPointsCount = (int)Mathf.Ceil(path.Count / stepBetweenCheckPoints) + 1;
         var checkPoints = new Vector3[checkPointsCount];
         var index = 0;
 
-        for (var i = 0; i < checkPointsCount; i++)
+        for (var i = 0; i < checkPointsCount - 1; i++)
         {
-
-            Debug.Log("allo?");
             index = ((i + 1) * stepBetweenCheckPoints > path.Count) ? path.Count - 1 : (i + 1) * stepBetweenCheckPoints;
-            checkPoints[i] = path[index].worldPosition;
+            checkPoints[i] = path[index].worldPosition - new Vector3(20.0f, 0.0f, 20.0f);
         }
+        checkPoints[checkPointsCount - 1] = targetPosition;
+
         return checkPoints;
     }
 
@@ -34,13 +33,18 @@ public class LongTermScript : MonoBehaviour
         var targetNode = aStarGridScript.NodeFromWorldPoint(targetPosition);
 
         List<LongTermNode> neighbours;
-        List<LongTermNode> openSet = aStarGridScript.GetNeighbours(startNode);
+        List<LongTermNode> openSet = aStarGridScript.GetOpenNeighbours(startNode);
         var openCount = openSet.Count;
 
         var node = startNode;
         var index = 0;
 
         node.closed = true;
+
+        for(var i = 0; i < openCount; i++)
+        {
+            openSet[i].parent = node;
+        }
 
         while (openCount > 0)
         {
@@ -63,7 +67,7 @@ public class LongTermScript : MonoBehaviour
                 return RetracePath(startNode, targetNode);
             }
 
-            neighbours = aStarGridScript.GetNeighbours(node);
+            neighbours = aStarGridScript.GetOpenNeighbours(node);
 
             for(var i = 0; i < neighbours.Count; i++)
             {
@@ -88,7 +92,6 @@ public class LongTermScript : MonoBehaviour
             }
             openSet.RemoveAt(index);
         }
-
         return null;
     }
 

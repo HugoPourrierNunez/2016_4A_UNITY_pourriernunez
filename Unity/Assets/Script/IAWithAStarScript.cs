@@ -43,18 +43,31 @@ public class IAWithAStarScript : MonoBehaviour
         }
         actualNode = new Node(nbBombs);
 
-        MultiThreadingScript mts = new MultiThreadingScript(new IACallBack(ResultCallback), longTermScript, gameManagerScript.actualGameState.iaPosition, gameManagerScript.MapManagerScript.GetGoalTransform().position);
+        StartCoroutine(GetCheckPoints());
+        /*MultiThreadingScript mts = new MultiThreadingScript(new IACallBack(ResultCallback), longTermScript, gameManagerScript.actualGameState.iaPosition, gameManagerScript.MapManagerScript.GetGoalTransform().position);
 
         Thread t = new Thread(new ThreadStart(mts.GetCheckPoints));
         t.Start();
-        t.Join();
+        t.Join();*/
     }
 
+    IEnumerator GetCheckPoints()
+    {
+        checkPoints = longTermScript.FindAICheckPoints(gameManagerScript.actualGameState.iaPosition, gameManagerScript.MapManagerScript.GetGoalTransform().position);
+        for(var i = 0; i < checkPoints.Length; i++)
+        {
+            Debug.Log(checkPoints[i].x + "/" + checkPoints[i].z);
+        }
+        yield return new WaitForSeconds(1.0f);
+        longTermPlanned = true;
+    }
+
+    /*
     public void ResultCallback(Vector3[] checkPoints)
     {
         longTermPlanned = true;
         this.checkPoints = checkPoints;
-    }
+    }*/
 
     public void SetGameManagerScript(GameManagerScript gmScript)
     {
@@ -63,6 +76,11 @@ public class IAWithAStarScript : MonoBehaviour
 
     public Vector3 GetNextDirectionIA()
     {
+        if(!longTermPlanned)
+        {
+            return Vector3.zero;
+        }
+
         for(var i = 0; i < sizeGameState; i++)
         {
             nodes[i].score = float.MaxValue;
@@ -71,15 +89,15 @@ public class IAWithAStarScript : MonoBehaviour
         actualNode.cost = 0;
         actualNode.gameState = gameManagerScript.ActualGameState;
 
-        if(longTermPlanned)
+        Debug.Log(actualNode.gameState.iaPosition.x + "/" + actualNode.gameState.iaPosition.z);
+
+        if (actualNode.gameState.iaPosition.x + gameManagerScript.CollisionManagerScript.iaRadius > checkPoints[reachedCheckPoint].x
+            && actualNode.gameState.iaPosition.x - gameManagerScript.CollisionManagerScript.iaRadius < checkPoints[reachedCheckPoint].x
+            && actualNode.gameState.iaPosition.z + gameManagerScript.CollisionManagerScript.iaRadius > checkPoints[reachedCheckPoint].z
+            && actualNode.gameState.iaPosition.z - gameManagerScript.CollisionManagerScript.iaRadius < checkPoints[reachedCheckPoint].z)
         {
-            if (actualNode.gameState.iaPosition.x + gameManagerScript.CollisionManagerScript.iaRadius > checkPoints[reachedCheckPoint].x
-                && actualNode.gameState.iaPosition.x - gameManagerScript.CollisionManagerScript.iaRadius < checkPoints[reachedCheckPoint].x
-                && actualNode.gameState.iaPosition.x + gameManagerScript.CollisionManagerScript.iaRadius > checkPoints[reachedCheckPoint].x
-                && actualNode.gameState.iaPosition.z - gameManagerScript.CollisionManagerScript.iaRadius < checkPoints[reachedCheckPoint].z)
-            {
-                reachedCheckPoint++;
-            }
+            //Debug.Log(actualNode.gameState.iaPosition.x + "/" + actualNode.gameState.iaPosition.z);
+            reachedCheckPoint++;
         }
 
         Explore(actualNode, 1, 0);
@@ -124,12 +142,12 @@ public class IAWithAStarScript : MonoBehaviour
 
             gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i]);
 
-            nodes[index].score = 1 / nodes[index].gameState.minDistToIA;
+            nodes[index].score = Mathf.Abs(checkPoints[reachedCheckPoint].x - nodes[index].gameState.iaPosition.x)
+                + Mathf.Abs(checkPoints[reachedCheckPoint].z - nodes[index].gameState.iaPosition.z);
 
-            if (longTermPlanned)
+            if (gameManagerScript.actualGameState.bombs.Length > 0)
             {
-                nodes[index].score += Mathf.Abs(checkPoints[reachedCheckPoint].x - nodes[index].gameState.iaPosition.x)
-                    + Mathf.Abs(checkPoints[reachedCheckPoint].z - nodes[index].gameState.iaPosition.z);
+                nodes[index].score += 1 / nodes[index].gameState.minDistToIA;
             }
 
             if (nodes[index].score == float.MaxValue)
