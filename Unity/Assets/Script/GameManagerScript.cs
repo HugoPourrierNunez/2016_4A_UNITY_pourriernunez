@@ -9,7 +9,9 @@ public enum BombState
 {
     Normal,
     Explosion,
-    BOOM
+    BOOM,
+    Laser, 
+    BZZZ
 }
 
 public class GameManagerScript : MonoBehaviour {
@@ -92,7 +94,7 @@ public class GameManagerScript : MonoBehaviour {
         //UnityEngine.Random.InitState(allSeed[seedChoosen]);
         actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
 
-        actualGameState.iaPosition = new Vector3(-19, .5f, -19);
+        actualGameState.iaPosition = new Vector3(mapManagerScript.GetStartTransform().position.x, .5f, mapManagerScript.GetStartTransform().position.z);
         collisionManagerScript.InitializeBombInfo(actualGameState);
         actualGameState.timeSinceStart = Time.time * 1000;
     }

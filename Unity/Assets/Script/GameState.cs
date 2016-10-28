@@ -7,6 +7,7 @@ public class GameState
     public Vector3 iaPosition;
     public Vector3 iaDirection;
     public BombInfo[] bombs;
+    public float[] distanceIaToBombs;
     public float timeSinceStart;
     public float minDistToIA;
 
@@ -17,6 +18,7 @@ public class GameState
         timeSinceStart = 0;
         minDistToIA = 0;
         bombs = new BombInfo[nbBombs];
+        distanceIaToBombs = new float[nbBombs];
 
         for(var i = 0; i < nbBombs; i++)
         {
@@ -50,7 +52,7 @@ public class BombInfo
     {
         position = Vector3.zero;
         delay = 0;
-        direction = Vector3.zero;
+        direction = Vector3.zero; ;
         state = BombState.Normal;
     }
 

@@ -15,6 +15,9 @@ public class MapManagerScript : MonoBehaviour
     [SerializeField]
     ObstacleScript[] obstacles;
 
+    [SerializeField]
+    Transform start;
+
     public void SetGameManagerScript(GameManagerScript gmScript)
     {
         this.gameManagerScript = gmScript;
@@ -24,6 +27,12 @@ public class MapManagerScript : MonoBehaviour
     {
         return goal;
     }
+
+    public Transform GetStartTransform()
+    {
+        return start;
+    }
+
 
     public Transform GetPlaneTransform()
     {
