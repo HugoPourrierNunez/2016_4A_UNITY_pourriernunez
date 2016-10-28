@@ -101,7 +101,7 @@ public class ToolMapScript : EditorWindow
         //l'écraser (false).
         XmlWriterSettings settingsWriter = new XmlWriterSettings();
         settingsWriter.OmitXmlDeclaration = true;
-        StreamWriter seedStream = new StreamWriter("SeedEnable.xml", true);
+        StreamWriter seedStream = new StreamWriter("SeedEnable.xml", false);
         var writer = XmlWriter.Create(seedStream, settingsWriter);
         mySerializeValue = new SerializeValue();
         mySerializeValue.nameMap = nameMap;
