@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
 
 public enum BombState
 {
@@ -58,8 +61,35 @@ public class GameManagerScript : MonoBehaviour {
 
     }
 
+    public List<int> RetrieveAllSeedMap()
+    {
+       List<int> allSeed = new List<int>();
+        
+
+        FileStream fs = new FileStream("SeedEnable.xml", FileMode.Open);
+        XmlReader reader = XmlReader.Create(fs);
+
+        XmlSerializer deserializer = new XmlSerializer(typeof(SerializeValue[]));
+
+        var result = (SerializeValue[])deserializer.Deserialize(reader);
+
+        for(var i = 0; i < result.Length; i++)
+        {
+            allSeed.Add(result[i].seed);
+        }
+        
+        fs.Close();
+        
+        return allSeed;
+    }
+
     public void InitializeGameState()
     {
+        //List<int> allSeed = RetrieveAllSeedMap();
+ 
+        //int seedChoosen = UnityEngine.Random.Range(0, allSeed.Count - 1);
+
+        //UnityEngine.Random.InitState(allSeed[seedChoosen]);
         actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
 
         actualGameState.iaPosition = new Vector3(-19, .5f, -19);
