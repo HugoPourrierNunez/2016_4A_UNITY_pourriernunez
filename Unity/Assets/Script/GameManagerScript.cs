@@ -4,12 +4,29 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
+using System;
 
 public enum BombState
 {
     Normal,
     Explosion,
-    BOOM
+    BOOM,
+    Laser, 
+    BZZZ
+}
+
+[Serializable()]
+public class SerializeValue
+{
+    public SerializeValue()
+    {
+    }
+
+    [XmlElement("Seed")]
+    public int seed { get; set; }
+
+    [XmlElement("NameMap")]
+    public string nameMap { get; set; }
 }
 
 public class GameManagerScript : MonoBehaviour {
@@ -40,7 +57,7 @@ public class GameManagerScript : MonoBehaviour {
     [SerializeField]
     IAWithAStarScript iAWithAStarScript;
 
-    void OnEnable()
+    void Start()
     {
         mapManagerScript.SetGameManagerScript(this);
         collisionManagerScript.SetGameManagerScript(this);
@@ -104,10 +121,13 @@ public class GameManagerScript : MonoBehaviour {
         //UnityEngine.Random.InitState(allSeed[seedChoosen]);
         actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
 
-        actualGameState.iaPosition = new Vector3(-19, .5f, -19);
+        actualGameState.iaPosition = new Vector3(mapManagerScript.GetStartTransform().position.x, .5f, mapManagerScript.GetStartTransform().position.z);
         collisionManagerScript.InitializeBombInfo(actualGameState);
         actualGameState.timeSinceStart = Time.time * 1000;
-        aStarGridScript.InitializeGridDimensions();
+        if(aStarGridScript != null)
+		{
+			aStarGridScript.InitializeGridDimensions();
+		}
     }
 
     public CollisionManagerScript CollisionManagerScript

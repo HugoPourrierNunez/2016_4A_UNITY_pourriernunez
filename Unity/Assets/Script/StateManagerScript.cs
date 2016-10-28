@@ -132,6 +132,8 @@ public class StateManagerScript : MonoBehaviour {
                 //GameState gs = gameManagerScript.ActualGameState;
                 //gs.iaDirection = gameManagerScript.IaManagerScript.getNextIaDirection(gameManagerScript.ActualGameState);
                 //gameManagerScript.ActualGameState = gs;
+
+
                 if(gameManagerScript.IAScript != null)
                 {
                     gameManagerScript.ActualGameState.iaDirection = gameManagerScript.IAScript.GetNextDirectionIA();

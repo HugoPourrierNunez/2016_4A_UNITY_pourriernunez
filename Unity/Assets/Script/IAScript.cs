@@ -16,15 +16,28 @@ public class IAScript : MonoBehaviour
 
     public static Vector3[] Direction = new Vector3[8]
     {
-        new Vector3(0.0f,0.0f, 1.0f),
-        new Vector3(0.71f,0.0f, 0.71f),
-        new Vector3(1.0f,0.0f, 0.0f),
-        new Vector3(-0.71f,0.0f, 0.71f),
-        new Vector3(-1.0f,0.0f, 0.0f),
-        new Vector3(-0.71f,0.0f, -0.71f),
-        new Vector3(0.0f,0.0f, -1.0f),
-        new Vector3(0.71f,0.0f, -0.71f)
+        new Vector3(0.0f,0.0f, 1.0f), //0
+        new Vector3(0.71f,0.0f, 0.71f), //1
+        new Vector3(1.0f,0.0f, 0.0f), //2
+        new Vector3(-0.71f,0.0f, 0.71f), //3
+
+        new Vector3(0.0f,0.0f, -1.0f), //4
+        new Vector3(0.71f,0.0f, -0.71f), //5
+        new Vector3(-1.0f,0.0f, 0.0f), //6
+        new Vector3(-0.71f,0.0f, -0.71f) //7
     };
+
+    public static int[] InvDirection= new int[32]
+        {
+           4,0,0,0,
+           5,3,0,0,
+           0,6,0,0,
+           7,0,0,1,
+           0,0,0,0,
+           0,7,1,0,
+           0,0,0,2,
+           0,0,3,5
+        };
 
     void Start()
     {
@@ -81,11 +94,11 @@ public class IAScript : MonoBehaviour
         if (depth > analyseDepth)
             return;
 
-        for (var i = 0; i < 8; i++)
+        for (var i = 0; i < 4; i++)
         {
             if (depth == 1)
             {
-                nodes[index].firstDirection = Direction[i];
+                nodes[index].firstDirection = Direction[i*2];
             }
             else
             {
@@ -94,14 +107,18 @@ public class IAScript : MonoBehaviour
 
             nodes[index].isClosed = false;
 
-            gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i]);
+            gameManagerScript.CollisionManagerScript.FillNextGameState(node.gameState, nodes[index].gameState, Direction[i * 2]);
+
+            if (nodes[index].gameState.minDistToIA == 0)
+            {
+                //nodes[index].score = 
+                continue;
+            }
+                
 
             nodes[index].score = 1 / nodes[index].gameState.minDistToIA
                 + Mathf.Abs(gameManagerScript.MapManagerScript.GetGoalTransform().position.x - nodes[index].gameState.iaPosition.x)
                 + Mathf.Abs(gameManagerScript.MapManagerScript.GetGoalTransform().position.z - nodes[index].gameState.iaPosition.z);
-
-            if (nodes[index].score == float.MaxValue)
-                return;
 
             nodes[index].cost = depth;
 
