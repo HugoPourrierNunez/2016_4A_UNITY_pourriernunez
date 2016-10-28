@@ -133,6 +133,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -179,6 +197,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -225,6 +261,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -946,6 +1000,8 @@ MonoBehaviour:
   stateManagerScript: {fileID: 277661695}
   playerManagerScript: {fileID: 322542821}
   iAScript: {fileID: 2024121016}
+  longTermScript: {fileID: 0}
+  aStarGridScript: {fileID: 0}
 --- !u!4 &562546744
 Transform:
   m_ObjectHideFlags: 0
@@ -1002,6 +1058,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -1228,6 +1302,7 @@ MonoBehaviour:
   plane: {fileID: 623872327}
   goal: {fileID: 1930431231}
   obstacles: []
+  start: {fileID: 267684852}
 --- !u!4 &698118861
 Transform:
   m_ObjectHideFlags: 0
@@ -1306,6 +1381,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -1352,6 +1445,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -1681,6 +1792,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -1823,6 +1952,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -1883,7 +2030,10 @@ MonoBehaviour:
   physicSpeedForPrediction: 10
   iaSpeed: 6
   bombSpeed: 3
+  distanceIgnore: 50
+  coefPrediction: 10
   bombRadius: 0.5
+  iaRadius: 0
 --- !u!4 &1149942499
 Transform:
   m_ObjectHideFlags: 0
@@ -1940,6 +2090,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2060,6 +2228,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2106,6 +2292,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2301,6 +2505,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2432,6 +2654,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2474,6 +2714,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2594,6 +2852,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2651,6 +2927,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2830,6 +3124,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -2938,6 +3250,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -3025,6 +3355,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -3235,6 +3583,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -3408,6 +3774,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0
@@ -3465,6 +3849,24 @@ Prefab:
       propertyPath: m_Name
       value: Bombe (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1000013403538690, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser1
+      value: 
+      objectReference: {fileID: 1000012495951632, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
+    - target: {fileID: 114000013287054018, guid: 4212e885dd20e19489a0e0b96b7dc3f6,
+        type: 2}
+      propertyPath: laser2
+      value: 
+      objectReference: {fileID: 1000011590993394, guid: b6318418dcde74743ad1c49e2abf3527,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4212e885dd20e19489a0e0b96b7dc3f6, type: 2}
   m_IsPrefabParent: 0

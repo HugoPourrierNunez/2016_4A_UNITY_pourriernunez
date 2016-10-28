@@ -43,8 +43,8 @@ public class ToolMapScript : EditorWindow
     public static void ShowWindow()
     {
         EditorWindow myWindow = EditorWindow.GetWindow(typeof(ToolMapScript));
-        myWindow.minSize = new Vector2(360f, 350f);
-        myWindow.maxSize = new Vector2(370f, 750f);
+        myWindow.minSize = new Vector2(360f, 140f);
+        myWindow.maxSize = new Vector2(370f, 150f);
     }
 	
     void OnGUI()
@@ -58,43 +58,14 @@ public class ToolMapScript : EditorWindow
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Proportion arène : ");
-        GUILayoutOption widthTextField = GUILayout.Width(160.0f);
-        strSizeArene = GUILayout.TextField(strSizeArene, widthTextField);
-        GUILayout.EndHorizontal();
-
-        sizePlaneX = 20f;// (float)(Convert.ToInt32(strSizeArene) / 2);
-        sizePlaneY = 20f;// (float)(Convert.ToInt32(strSizeArene) / 2);
-
-        GUILayout.BeginHorizontal();
         GUILayout.Label("Nom de la map :", EditorStyles.label);
-
+        GUILayoutOption widthTextField = GUILayout.Width(160.0f);
         nameMap = GUILayout.TextField(nameMap, widthTextField);
         GUILayoutOption widthButton = GUILayout.Width(80.0f);
 
         if (GUILayout.Button("Ajouter", widthButton))
         {
             InitializeGameState();
-            /*
-            Debug.Log("Direction IA : " + gameState.iaDirection);
-            Debug.Log("Position IA : " + gameState.iaPosition);
-            Debug.Log("minDistBombTo IA : " + gameState.minDistToIA);
-            Debug.Log("TimeSinceStart IA : " + gameState.timeSinceStart);
-            Debug.Log("BOMBES 1 IA : " + gameState.bombs[0].position);
-            Debug.Log("BOMBES 2 IA : " + gameState.bombs[1].position);
-            Debug.Log("BOMBES 3 IA : " + gameState.bombs[2].position);
-            Debug.Log("BOMBES 4 IA : " + gameState.bombs[3].position);
-            Debug.Log("BOMBES 5 IA : " + gameState.bombs[4].position);
-            Debug.Log("BOMBES 6 IA : " + gameState.bombs[5].position);
-            Debug.Log("BOMBES 7 IA : " + gameState.bombs[6].position);
-
-            Debug.Log("BOMBES DIR 1 IA : " + gameState.bombs[0].direction);
-            Debug.Log("BOMBES DIR 2 IA : " + gameState.bombs[1].direction);
-            Debug.Log("BOMBES DIR 3 IA : " + gameState.bombs[2].direction);
-            Debug.Log("BOMBES DIR 4 IA : " + gameState.bombs[3].direction);
-            Debug.Log("BOMBES DIR 5 IA : " + gameState.bombs[4].direction);
-            Debug.Log("BOMBES DIR 6 IA : " + gameState.bombs[5].direction);
-            Debug.Log("BOMBES DIR 7 IA : " + gameState.bombs[6].direction);*/
         }
         GUILayout.EndHorizontal();
     }
@@ -107,7 +78,7 @@ public class ToolMapScript : EditorWindow
         
         
         InitializeBombInfo();
-        gameState.iaPosition = new Vector3(-19, .5f, -19);
+        gameState.iaPosition = new Vector3(-14, .5f, -14);
         gameState.timeSinceStart = Time.time * 1000;
 
         BombInfo nearestBomb = NearestBombFromIA(gameState.bombs);
@@ -211,8 +182,7 @@ public class ToolMapScript : EditorWindow
         return result;
     }
 }
-
-[Serializable()]
+/*
 public class SerializeValue
 {
     public SerializeValue()
@@ -224,4 +194,4 @@ public class SerializeValue
 
     [XmlElement("NameMap")]
     public string nameMap { get; set; }
-}
+}*/

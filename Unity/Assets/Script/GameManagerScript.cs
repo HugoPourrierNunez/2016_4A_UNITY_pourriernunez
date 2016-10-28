@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -15,7 +15,6 @@ public enum BombState
     BZZZ
 }
 
-[Serializable()]
 public class SerializeValue
 {
     public SerializeValue()
@@ -28,6 +27,7 @@ public class SerializeValue
     [XmlElement("NameMap")]
     public string nameMap { get; set; }
 }
+
 
 public class GameManagerScript : MonoBehaviour {
 
@@ -63,7 +63,6 @@ public class GameManagerScript : MonoBehaviour {
         collisionManagerScript.SetGameManagerScript(this);
         stateManagerScript.SetGameManagerScript(this);
         playerManagerScript.SetGameManagerScript(this);
-        //longTermScript.SetGameManagerScript(this);
 
         if (iAScript != null)
         {
@@ -93,20 +92,23 @@ public class GameManagerScript : MonoBehaviour {
     public List<int> RetrieveAllSeedMap()
     {
        List<int> allSeed = new List<int>();
-        
+
 
         FileStream fs = new FileStream("SeedEnable.xml", FileMode.Open);
+       
         XmlReader reader = XmlReader.Create(fs);
 
-        XmlSerializer deserializer = new XmlSerializer(typeof(SerializeValue[]));
+        XmlSerializer deserializer = new XmlSerializer(typeof(SerializeValue));
 
-        var result = (SerializeValue[])deserializer.Deserialize(reader);
+        var result = (SerializeValue)deserializer.Deserialize(reader);
 
-        for(var i = 0; i < result.Length; i++)
+        /*
+        for (var i = 0; i < result.Count; i++)
         {
             allSeed.Add(result[i].seed);
-        }
+        }*/
         
+        allSeed.Add(result.seed);
         fs.Close();
         
         return allSeed;
@@ -114,11 +116,11 @@ public class GameManagerScript : MonoBehaviour {
 
     public void InitializeGameState()
     {
-        //List<int> allSeed = RetrieveAllSeedMap();
+        List<int> allSeed = RetrieveAllSeedMap();
  
-        //int seedChoosen = UnityEngine.Random.Range(0, allSeed.Count - 1);
+        int seedChoosen = UnityEngine.Random.Range(0, allSeed.Count - 1);
 
-        //UnityEngine.Random.InitState(allSeed[seedChoosen]);
+        UnityEngine.Random.InitState(allSeed[seedChoosen]);
         actualGameState = new GameState(CollisionManagerScript.getBombManagers().Length);
 
         actualGameState.iaPosition = new Vector3(mapManagerScript.GetStartTransform().position.x, .5f, mapManagerScript.GetStartTransform().position.z);
